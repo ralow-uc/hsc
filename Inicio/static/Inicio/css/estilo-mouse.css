@@ -1,0 +1,63 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: 'Quicksand','Open Sans', 'Helvetica Neue'
+}
+/*Barra de navegación*/
+.navegacion{
+    padding: 0;
+}
+#img2
+{
+    border-radius: 10px;
+    text-align: center;
+    height: auto;
+    width: 200px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.4);
+}
+/*Cabecera de la página (Idealmente una imagen)*/
+.img-hd{
+    background-image: url('/static/Inicio/img/img-mouse/fondo_mouse2.jpg');
+    width: auto;
+    height: 400px;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+
+}
+.txt-hd{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+
+}
+
+div a{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+
+}
+body{
+    background-color: rgba(40, 3, 126);
+}
+
+.items
+{
+    margin-top: 50px;
+    color:rgb(255, 255, 255);
+    align-items: center;
+}
+.row.no-gutter 
+{ 
+    margin-left: 0; 
+    margin-right: 0; 
+}
+p{
+    line-height: 18px;
+    margin-top: 10px;
+}

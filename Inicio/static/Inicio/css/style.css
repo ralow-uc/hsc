@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand';
+}
+
+
+
+.img{
+    border-radius:20px;
+    box-shadow: 1px 4px 10px 0 #000;
+    max-width: 400px;
+    margin-top: 30px;
+    background-color: white;
+    box-shadow: 1px 4px 10px 0 #000;
+    border: 2px solid rgb(0, 0, 0);
+    
+}
+.fila1
+{
+    margin: 40px 100px 0px 100px;
+    background-color: rgb(247, 243, 243, .8);
+    border-radius: 2px;
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 1px 4px 10px 0 #000;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 7px;
+}
+       
+.fila4{
+    margin-top: 70px;
+    background-color: rgb(50, 6, 97);
+    border-radius: 7px;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    padding: 30px; 
+    box-shadow: 1px 4px 10px 0 #000;
+    border: 1px solid rgb(0, 0, 0);
+    align-items: center;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active{
+    background-color: rgb(75, 30, 122);
+    outline: none !important;
+    border: none !important;
+}
+    
+
+.descripcion{
+    padding: 35px;
+    background-color: rgba(255, 255, 255, .9);
+    margin-top: 20px;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 1px 4px 10px 0 #000;
+}
+
+.fondo1{
+    background-image: url('/static/Inicio/img/img-carrito/purple.jpg');
+}
+
+.fondo2{
+    background-color: rgba(0, 0, 0, 0.8);
+      
+}
+@media screen and (max-width: 991px){
+
+    .img
+    {
+        width: 350px;
+    }
+
+}
+.descripcion
+{
+    font-size: 18px;
+    font-weight: 600;
+}

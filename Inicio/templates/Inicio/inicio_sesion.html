@@ -1,0 +1,177 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Conectar mi CSS -->
+    <link rel="stylesheet" href="{% static 'Inicio/css/estilo-registro.css' %}">
+    <!--Fuente 'Quicksand'-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <!--Font Awesome para los icons-->
+    <script src="https://kit.fontawesome.com/1877fd7acc.js" crossorigin="anonymous"></script>
+  
+    
+    <title>Inicio de sesion</title>
+  </head>
+  <body class="bg-dark">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                  <a class="navbar-brand fw-bold" href="{% url 'inicio' %}">HSC<br>Componentes</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                      <li class="nav-item ">
+                          <a class="nav-link active " aria-current="page" href="{% url 'inicio' %}"><i class="fa-solid fa-house "></i>
+                              Inicio</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-bag-shopping"></i> Tienda</a></a>
+                          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarMic' usuario.username %}">Micrófonos</a></li>
+                            {% else %} 
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Micrófonos</a></li>
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'teclados'  usuario.username %}">Teclados</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Teclados</a></li> 
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarMouse' usuario.username %}">Mouse Gamer</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Mouse Gamer</a></li> 
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarGrafica' usuario.username  %}">Tarjetas gráficas</a></li>
+                            {% else %} 
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Tarjetas gráficas</a></li>
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarProcesador' usuario.username  %}">Procesadores</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Procesadores</a></li> 
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarRam' usuario.username%}">Memorias</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Memorias</a></li> 
+                            {% endif %}
+                          </ul>
+                        </li>
+                      <li class="nav-item">
+                          {% if usuario %}
+                              <a class="nav-link active " aria-current="page" href="{% url 'miperfil' usuario.username %}"><i class="fa-solid fa-user"></i>{{usuario.username}}</a>
+                          {% else %}
+                              <a class="nav-link active " aria-current="page" href="{% url 'iniciar' %}"><i class="fa-solid fa-user"></i> Iniciar Sesion</a>
+                          {% endif %}
+                      </li>
+                      <li class="nav-item">
+                          {% if usuario %}
+                          <a class="nav-link active" aria-current="page" href="{%url 'carrito' usuario.username %}"> Carrito</a>
+                          {% else %}
+                          <a class="nav-link active" aria-current="page" href="#"> Carrito</a>
+                          {% endif %}
+                      </li>
+
+                  </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+        </header>
+    <section> 
+        <div class="row g-0 ">
+            <div class="col-lg-7 d-none d-lg-block ">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item img-1 min-vh-100 active">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>¡Tenemos los mejores productos del mercado</h5>
+                          <p>Recuerda siempre revisar el stock antes de comprar cualquiera de nuestros productos :)</p>
+                        </div>
+                      </div>
+                      <div class="carousel-item img-2 min-vh-100">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Tenemos las mejores novedades para ti</h5>
+                          <p>¿Sabes que es importante a la hora de comprar los componentes de tu pc? comprarlo en HSC Componentes. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+            </div>
+            <div class="col-lg-5 d-flex flex-column aling-items-end min-vh-100">
+                <div class="px-lg-5 py-lg-4 p-4 w-100 aling-self-center">
+                    <h1 class="font-weight-bold nb-4">Bienvenido de vuelta</h1>
+
+                    <form class="mb-5" action="{% url 'iniciarsesion' %}" enctype="multipart/form-data" method="POST" id="form2" >
+                      {% csrf_token %}
+                      {% if messages %}
+                      <div>
+                          {% for i in messages %}
+                              <p style="color: red;">{{ i }}</p>
+                          {% endfor %}
+                      </div>
+  
+                      {% endif %}
+                        <div class="mb-4">
+                          <label for="exampleInputEmail1" class="form-label font-weight-bold">Usuario</label>
+                          <input type="text" class="form-control bg-dark-x border-0" name="usuario" placeholder="Ingrese su username" id="usuario" >
+                          
+                        </div>
+                        <div class="mb-4">
+                          <label for="exampleInputPassword1" class="form-label font-weight-bold" >Contraseña</label>
+                          <input type="password" class="form-control bg-dark-x mb-2" name ="contra" id="contra" placeholder="Ingrese su contraseña">
+                          <a href="/pages/recovery_pass.html"  class="form-text text-muted text-decoration-none">¿Haz oldidado tu contraseña?</a>
+                        </div>
+                    
+                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                        <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-4 w-100 mt-auto">
+                            <p class="d-inline mb-0">
+                                ¿Todavía no tienes una cuenta?
+                                <a href="{%url 'registrarse'%}" class="text-light font-weight-bold text-decoration-none"><b>Crea una ahora</b> </a>
+                            </p>
+                        </div>
+                        
+                      </form>
+                </div>
+            </div>
+        </div> 
+    </section>
+    
+
+
+
+    
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+</html>

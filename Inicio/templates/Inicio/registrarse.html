@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+  <head>
+        
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200&family=Spartan:wght@300;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'Inicio/css/estilo-registro.css' %}">
+    
+    <script src="https://kit.fontawesome.com/1877fd7acc.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+    <title>Inicio de sesion</title>
+  </head>
+  <body class="bg-dark">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                  <a class="navbar-brand fw-bold" href="/index.html">HSC<br>Componentes</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                      <li class="nav-item ">
+                          <a class="nav-link active " aria-current="page" href="{% url 'inicio' %}"><i class="fa-solid fa-house "></i>
+                              Inicio</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-bag-shopping"></i> Tienda</a></a>
+                          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarMic' usuario.username %}">Micrófonos</a></li>
+                            {% else %} 
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Micrófonos</a></li>
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'teclados'  usuario.username %}">Teclados</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Teclados</a></li> 
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarMouse' usuario.username %}">Mouse Gamer</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Mouse Gamer</a></li> 
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarGrafica' usuario.username  %}">Tarjetas gráficas</a></li>
+                            {% else %} 
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Tarjetas gráficas</a></li>
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarProcesador' usuario.username  %}">Procesadores</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Procesadores</a></li> 
+                            {% endif %}
+
+                            {% if usuario %}
+                              <li><a class="dropdown-item" href="{% url 'mostrarRam' usuario.username%}">Memorias</a></li>
+                            {% else %}
+                              <li><a class="dropdown-item" href="{% url 'iniciar' %}">Memorias</a></li> 
+                            {% endif %}
+                          </ul>
+                        </li>
+                      <li class="nav-item">
+                          {% if usuario %}
+                              <a class="nav-link active " aria-current="page" href="{% url 'miperfil' usuario.username %}"><i class="fa-solid fa-user"></i>{{usuario.username}}</a>
+                          {% else %}
+                              <a class="nav-link active " aria-current="page" href="{% url 'iniciar' %}"><i class="fa-solid fa-user"></i> Iniciar Sesion</a>
+                          {% endif %}
+                      </li>
+                      <li class="nav-item">
+                          {% if usuario %}
+                          <a class="nav-link active" aria-current="page" href="{%url 'carrito' usuario.username %}"> Carrito</a>
+                          {% else %}
+                          <a class="nav-link active" aria-current="page" href="#"> Carrito</a>
+                          {% endif %}
+                      </li>
+
+                  </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+        </header>
+    <section> 
+        <div class="row g-0 ">
+            <div class="col-lg-7 d-none d-lg-block ">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item img-1 min-vh-100 active">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>¡Tenemos los mejores productos del mercado</h5>
+                          <p>Recuerda siempre revisar el stock antes de comprar cualquiera de nuestros productos :)</p>
+                        </div>
+                      </div>
+                      <div class="carousel-item img-2 min-vh-100">
+                        <div class="carousel-caption d-none d-md-block">
+                          <h5>Tenemos las mejores novedades para ti</h5>
+                          <p>¿Sabes que es importante a la hora de comprar los componentes de tu pc? comprarlo en HSC Componentes. </p>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+            </div>
+            <div class="col-lg-5 d-flex flex-column aling-items-end min-vh-100">
+                <div class="px-lg-5 py-lg-4 p-4 w-100 aling-self-center">
+                  <div class="text-start boton-volver">
+                    <a href="{% url 'iniciar' %}" class="boton btn btn-primary">Volver</a>
+                  </div>
+                    <h1 class="font-weight-bold nb-2">Registarse</h1>
+                    <form class="mb-8" action="{% url 'registrar' %}" method="POST" enctype="multipart/form-data" id="form1" name="formulario1">
+                        {% csrf_token %}
+                        {% if messages %}
+                        <div>
+                            {% for i in messages %}
+                                <p style="color: red;">{{ i }}</p>
+                            {% endfor %}
+                        </div>
+
+                        {% endif %}
+                        <div class="mb-2">
+                          <label for="exampleInputEmail1" class="form-label font-weight-bold">Nombre de usuario<span class="text-danger"> *</span></label>
+                          <input type="text" class="form-control" name="usuario" placeholder="Ej: carlos-fabres_celis" id="usuario">
+                          <p>
+                            <b>
+                              * El nombre de usuario debe tener entre 4 y 16 caracteres y SOLO puede contener '-' y '_'. <br>
+                            </b>
+                          </p>
+                        </div>
+                        <div class="mb-1">
+                                <label for="exampleInputPassword1" class="form-label font-weight-bold" >Nombre<span class="text-danger"> *</span></label>
+                                <input type="text" class="form-control" name="nombre" placeholder="Ingrese su nombre" id="nombre">
+                        </div>
+                        <div class="mb-1">
+                                <label for="exampleInputPassword1" class="form-label font-weight-bold" >Apellido<span class="text-danger"> *</span></label>
+                                <input type="text" class="form-control" name="apellido" placeholder="Ingrese su apellido" id="apellido">
+                        </div>
+                        <div class="mb-1">
+                          <label for="exampleInputPassword1" class="form-label font-weight-bold" >Email<span class="text-danger"> *</span></label>
+                          <input type="email" class="form-control" name="email" placeholder="Ingrese su email" id="email">
+                        </div>
+                        <div class="mb-1">
+                          <label for="exampleInputPassword1" class="form-label font-weight-bold" >Contraseña<span class="text-danger"> *</span></label>
+                          <input type="password" class="form-control bg-dark-x mb-2" name="contra" placeholder="Como mínimo de 4 caracteres." id="contra">
+                        </div>
+                        <div class="mb-1">
+                          <label for="exampleInputPassword1" class="form-label font-weight-bold" >Confirmar contraseña<span class="text-danger"> *</span></label>
+                          <input type="password" class="form-control bg-dark-x mb-2" name="contra2" placeholder="Confirme su contraseña" id="contra2">
+                        </div>
+                        <div class="mb-1">
+                          <label for="exampleInputPassword1" class="form-label font-weight-bold" >Región<span class="text-danger"> *</span></label>
+                          <select class="form-select" aria-label="Disabled select example" name="region" id ="region" required>
+                                {% for x in regiones_m %}
+                                <option selected>Selecciona una región</option>
+                                <option value="{{ x.idRegion }}">{{ x.nombreReg }}</option>
+                             {% endfor %}
+                            
+                            
+                          </select>
+                        </div>
+                        <div class="mb-1" required>
+                          <label for="exampleInputPassword1" class="form-label font-weight-bold" >Comuna<span class="text-danger"> *</span></label>
+                          <select class="form-select" aria-label="Disabled select example" name="comuna" id ="comuna" >
+                            {% for i in comunas_m %}
+                                <option selected>Selecciona una Comuna</option>
+                                <option value="{{ i.idComuna }}">{{ i.nombreCom }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="mb-1">
+                          <label for="exampleInputEmail1" class="form-label font-weight-bold">Dirección<span class="text-danger"> *</span></label>
+                          <input type="text" class="form-control" placeholder="Ingrese su dirección" name="direccion" id="direccion">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-1">Registrarse</button>
+                        <div class="alertas"
+                        >
+                          <p class="warnings" id="warnings"></p>
+                        </div>
+                        
+                        </div>
+
+                      </form>
+                </div>
+
+            </div>
+        </div> 
+    </section>
+    
+
+    <!--Mi Js-->
+    <script src="{%static 'Inicio/js/v-registro_sesion.js'%}"></script>
+    <!--Bootstrap Js-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  </body>
+</html>

@@ -1,0 +1,29 @@
+{% extends 'Inicio/plantMain.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'Inicio/css/estilo-grafica.css' %}">
+{% endblock css %}
+{% block imagen %}
+<div class="img-hd">
+    <div class="txt-hd">
+        <p class="lh-lg">Graficas</p>
+    </div>
+</div>
+{% endblock imagen %}
+{% block contenido %}
+<section class="items">
+    <div class="container">
+        <div class="row items no-gutter">
+            {% for c in grafica %}
+            <div class="col-xl-3 col-md-6 col-sm-12">
+                <a href="{% url 'grafica' idg=c.idProducto usuario=usuario.username  %}">
+                    <img src="{{c.imagenProd.url}}" alt="Error :D" id="img2" class="img-fluid">
+                    <p class="text-break">{{c.nombreProducto}}</p>
+                    <h6>$ {{c.precioProducto}}</h6>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock contenido %}

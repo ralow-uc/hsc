@@ -1,0 +1,56 @@
+*
+{
+    font-family: 'Quicksand';
+    margin: 0;
+    padding: 0;
+}
+body
+{
+    background-color: rgb(40, 3, 126);
+    color: #fff;
+}
+/*Boton volver*/
+.boton
+{
+    
+    margin-top: 10px;
+}
+/*Botón para volver al menú principal*/
+.boton-volver
+{
+    margin-bottom: 20px;
+}
+
+.btn-primary{
+    background-color: rgb(60, 98, 192);
+    outline: none;
+    border: 0px;
+    box-shadow: none;
+    border-radius: 2px solid;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active{
+    background-color: rgb(39, 71, 153);
+    outline: none !important;
+    border: none !important;
+     box-shadow: none;
+}
+
+/*Filas*/
+.fila
+{
+    margin-bottom: 12px;
+}
+.profile-pic
+{
+    width: 200px;
+}
+/*Color de las validaciones*/
+#mensajes1{
+    margin-top: 5px;
+    color: #ff606e;
+}
+
+#mensajes2{
+    margin-top: 5px;
+    color: #2acc80;
+}

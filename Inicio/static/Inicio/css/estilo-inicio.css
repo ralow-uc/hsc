@@ -1,0 +1,59 @@
+:root{
+    --dark: #16191c;
+    --dark-x: #1e2126;
+    --light:#ffffff;
+}
+*
+{
+    font-family: 'Quicksand'; 
+}
+body{
+    color: var(--light);
+    text-align: center;
+}
+.bd-dark{
+    background-color: var(--dark) !important;
+
+}
+.bd-dark-x{
+    background-color: var(--dark-x);
+}
+
+.form-control,.btn{
+    min-height: 3.125rem ;
+    line-height:initial ;
+}
+.img-1{
+    background-image: url(/img/img-inicio/img_1.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.img-2{
+    background-image: url(/img/img-inicio/Setup-Gamer-Raidmax-scaled.jpg);
+    background-size: cover;
+    background-position: center;
+
+}
+
+.img-fluid{
+    height: 50%;
+
+}
+.alertas p{
+    margin-top: 50px !important; 
+    color:rgb(255, 0, 0) !important;
+}
+
+.btn-primary{
+    background-color: rgb(60, 98, 192);
+    outline: none;
+    border: 0px;
+    box-shadow: none;
+    border-radius: 2px solid;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active{
+    background-color: rgb(39, 71, 153);
+    outline: none !important;
+    border: none !important;
+     box-shadow: none;
+}

@@ -1,0 +1,29 @@
+{% extends 'Inicio/plantMicros.html' %}
+{% load static %}
+
+{% block producto %}
+<div class="col-lg-4 text-center"> <img src="{{prod.imagenProd.url}}" alt="Error" class="img-fluid img "> </div>
+<div class="col-lg-8 text-center">
+
+    <div class="row fila1 text-center">
+        <p> {{prod.nombreProducto}} </p>
+    </div>
+    <div class="row fila1 text-center">
+        <p> {{prod.precioProducto}} </p>
+    </div>
+    <div class="row fila1 text-center">
+        <p> {{prod.stockProd}} </p>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6"><a href="{%url 'Add' idProducto=prod.idProducto usuario=usuario.username%}" class="btn btn-primary button submit fila4 ">Añadir al carrito</a></div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+</div>
+{% endblock producto %}
+
+{% block descripcion %}
+<p>{{ prod.especificacionProd }}</p>
+{% endblock descripcion %}

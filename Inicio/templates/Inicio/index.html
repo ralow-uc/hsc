@@ -1,0 +1,114 @@
+{% extends 'Inicio/plantMain.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'Inicio/css/estilo-index.css' %}">
+{% endblock css %}
+
+{% block imagen %}
+<div class="img-hd">
+    <div class="logo-img"><img class="img-fluid" src="{% static 'Inicio/img/logo/logo1.png' %}"></div>
+    <div class="">
+    </div>
+
+</div>
+{% endblock imagen %}
+
+{% block contenido %}
+<section class="compsyper">
+    <div class="container">
+        <h1 class="text-break">Acá podrás encontrar lo mejor para poder armar tu setup 	&#128293;</h1>
+        <h2>Periféricos para la bestia &#9889;</h2>
+        <div class="row align-items-center">
+            <div class="col-xl-4 col-md-6 col-sm-12">
+                <article class="caja">
+                    
+                    {% if usuario %}
+                        <a href="{% url 'mostrarMic' usuario.username %}"><img src="{% static 'Inicio/img/img-index/microfono.jpg' %}" alt="microfono gamer" class="img-fluid" id="img"></a>
+                        <p class="txtcaja">MICRÓFONOS</p>
+                    {% else %}
+                        <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/microfono.jpg' %}" alt="microfono gamer" class="img-fluid" id="img"></a>
+                        <p class="txtcaja">MICRÓFONOS</p>
+                        
+                    {% endif %}
+                </article>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-12">
+                <article class="caja">
+                    {%if usuario %}
+                    <a href="{% url 'teclados'  usuario.username %}"><img src="{% static 'Inicio/img/img-index/teclado.jpg' %}" alt="teclado gamer" class="img-fluid" id="img"></a>
+                    <p class="txtcaja"> TECLADOS</p>
+                    {%else%}
+                    <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/teclado.jpg' %}" alt="teclado gamer" class="img-fluid" id="img"></a>
+                    <p class="txtcaja"> TECLADOS</p>
+                    {%endif%}
+                </article>
+            </div>
+            <div class="col-xl-4 col-md-12 col-sm-12">
+                <article class="caja">
+                    {%if usuario%}
+                    <a href="{% url 'mostrarMouse' usuario.username %}"><img src="{% static 'Inicio/img/img-index/mouse.jpg' %}" alt="mouse gamer" class="img-fluid" id="img"></a>
+                    <p class="txtcaja"> MOUSE GAMER</p>
+                    {%else%}
+                    <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/mouse.jpg' %}" alt="mouse gamer" class="img-fluid" id="img"></a>
+                    <p class="txtcaja"> MOUSE GAMER</p>
+                    {%endif%}
+
+                </article>
+            </div>
+            
+        </div>
+    </div>
+</section>    
+<section class="compsyper">
+    
+    <div class="container">
+        <h2>Componentes para armar a la bestia &#129409;</h2>
+        <div class="row align-items-center">
+            <div class="col-xl-4 col-md-6 col-sm-12">
+                <article class="caja">
+                    {%if usuario %}
+                        <a href="{% url 'mostrarGrafica' usuario.username  %}"><img src="{% static 'Inicio/img/img-index/grafica.png' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
+                        <p class="txtcaja"> TARJETAS GRÁFICAS</p>
+                    {%else%}
+                        <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/grafica.png' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
+                        <p class="txtcaja"> TARJETAS GRÁFICAS</p>
+                    {%endif%}
+                </article>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-12">
+                <article class="caja">
+                    {%if usuario %}
+                        <a href="{% url 'mostrarProcesador' usuario.username  %}"><img src="{% static 'Inicio/img/img-index/procesador.jpg' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
+                        <p class="txtcaja"> PROCESADORES</p>
+                    {%else%}
+                        <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/procesador.jpg' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
+                        <p class="txtcaja"> PROCESADORES</p>
+                    {%endif%}
+                </article>
+            </div>
+            <div class="col-xl-4 col-md-12 col-sm-12">
+                <article class="caja">
+                    {%if usuario%}
+                    <a href="{% url 'mostrarRam' usuario.username%}"><img src="{% static 'Inicio/img/img-index/rampc.jpg' %}" alt="trident z rgb" class="img-fluid" id="img"></a>
+                    <p class="txtcaja">MEMORIAS</p>
+                    {%else%}
+                    <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/rampc.jpg' %}" alt="trident z rgb" class="img-fluid" id="img"></a>
+                    <p class="txtcaja">MEMORIAS</p>
+                    {%endif%}
+                </article>
+            </div>
+            
+        </div>
+    </div>
+</section>     
+{% endblock contenido %}
+    
+
+
+
+
+
+
+
+<!-- 01001000 01101111 01101100 01100001 00100000 01001101 01110101 01101110 01100100 01101111 00100001 -->

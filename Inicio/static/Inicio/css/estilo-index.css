@@ -1,0 +1,79 @@
+
+*
+{
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand','Open Sans', 'Helvetica Neue'
+}
+body{
+    
+    background-color: rgb(40, 3, 126);
+    text-align: center;    
+}
+/*Barra de navegación*/
+.navegacion{
+    padding: 0px;
+}
+/*Cabecera de la página (Idealmente una imagen)*/
+.img-hd{
+    background-image: url('/static/Inicio/img/img-index/header.jpg');
+    width: auto;
+    height: 400px;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    margin: auto;
+
+}
+.txt-hd{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+
+}
+.logo-img{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: relative; 
+    margin: auto;   
+}
+
+
+
+/*Sección de 'Section'*/
+.compsyper
+{
+    margin-top: 50px;
+    color:rgb(255, 255, 255);
+}
+/*Cajas de objetos (Mouse, Micrófono, etc.)*/
+.caja{
+    position: relative;
+    
+    margin: 30px 20px 100px 20px; 
+}
+/*Modificación de imágenes de las cajas*/
+#img
+{
+    border-radius: 10px;
+    width: 350px;
+    font-weight: bolder;
+    font-weight: 400;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+/*Texto por debajo de las cajas*/
+.txtcaja
+{
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    margin-top: 10px;
+}
+h1
+{
+    padding-bottom: 100px;
+}
