@@ -1,0 +1,33 @@
+# Entornos virtuales
+venv/
+.env
+*.env
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de configuración del IDE
+.vscode/
+.idea/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+# Archivos de migración (opcional si los generas en diferentes entornos)
+**/migrations/*.pyc
+**/migrations/__pycache__/
+
+# Archivos generados por Django
+/static/
+media/
+
+# Archivos de paquetes
+*.egg-info/
+dist/
+build/
