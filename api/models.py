@@ -45,3 +45,20 @@ class TipoProducto(Base):
 
     idtipoprod = Column('IDTIPOROD', Integer, primary_key=True, index=True)
     nombretipoproducto = Column('NOMBRETIPOPROD', String(50))
+
+class Usuario(Base):
+    __tablename__ = "INICIO_USUARIO"
+
+    username = Column("USERNAME", String(15), primary_key=True)
+    contrasennia = Column("CONTRASENNIA", String(30))
+    nombre = Column("NOMBRE", String(60))
+    apellido = Column("APELLIDO", String(60))
+    email = Column("EMAIL", String(150))
+    tipousuario_id = Column("TIPOUSUARIO_ID", Integer, ForeignKey('INICIO_TIPOUSUARIO.IDTIPOUSUARIO'))
+    
+    
+class TipoUsuario(Base):
+    __tablename__ = "INICIO_TIPOUSUARIO"
+
+    idtipousuario = Column("IDTIPOUSUARIO", Integer, primary_key=True, index=True)
+    nombretipo = Column("NOMBRETIPO", String(30))
