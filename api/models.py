@@ -62,3 +62,16 @@ class TipoUsuario(Base):
 
     idtipousuario = Column("IDTIPOUSUARIO", Integer, primary_key=True, index=True)
     nombretipo = Column("NOMBRETIPO", String(30))
+    
+class Comuna(Base):
+    __tablename__ = "INICIO_COMUNA"
+
+    idcomuna = Column("IDCOMUNA", Integer, primary_key=True, index=True)
+    nombrecom = Column("NOMBRECOM", String(40))
+    
+class Region(Base):
+    __tablename__ = "INICIO_REGION"
+
+    idregion = Column("IDREGION", Integer, primary_key=True, index=True)
+    nombrereg = Column("NOMBREREG", String(40))
+    comuna_id = Column("COMUNA_ID", Integer, ForeignKey('INICIO_COMUNA.IDCOMUNA'))
