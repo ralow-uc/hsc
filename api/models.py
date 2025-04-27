@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Sequence
+from sqlalchemy import Column, ForeignKey, Integer, String, Sequence
 from api.database import Base 
 
 class Categoria(Base):
@@ -23,12 +23,25 @@ class Producto(Base):
     especificacionprod = Column("ESPECIFICACIONPROD", String(900))
     stockprod = Column("STOCKPROD", Integer)
     imagenprod = Column("IMAGENPROD", String(100))
-    marca_id = Column("MARCA_ID", Integer)
-    tipoprod_id = Column("TIPOPROD_ID", Integer)
+    marca_id = Column("MARCA_ID", Integer, ForeignKey('INICIO_MARCA.IDMARCA'))
+    tipoprod_id = Column("TIPOPROD_ID", Integer, ForeignKey('INICIO_TIPOPROD.IDTIPOROD'))
 
 class Marca(Base):
     __tablename__ = "INICIO_MARCA"
 
     idmarca = Column("IDMARCA", Integer, primary_key=True, autoincrement=True)
     nombremarca = Column("NOMBREMARCA", String(30), nullable=False)
+
+class Modelo(Base):
+    __tablename__ = 'INICIO_MODELO'
+
+    idmodelo = Column('IDMODELO', Integer, primary_key=True)
+    nombremodelo = Column('NOMBREMODELO', String(30))
+    marca_id = Column('MARCA_ID', Integer, ForeignKey('INICIO_MARCA.IDMARCA'))
     
+
+class TipoProducto(Base):
+    __tablename__ = "INICIO_TIPOPROD"
+
+    idtipoprod = Column('IDTIPOROD', Integer, primary_key=True, index=True)
+    nombretipoproducto = Column('NOMBRETIPOPROD', String(50))
