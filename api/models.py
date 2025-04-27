@@ -75,3 +75,33 @@ class Region(Base):
     idregion = Column("IDREGION", Integer, primary_key=True, index=True)
     nombrereg = Column("NOMBREREG", String(40))
     comuna_id = Column("COMUNA_ID", Integer, ForeignKey('INICIO_COMUNA.IDCOMUNA'))
+    
+from sqlalchemy import Column, Integer, ForeignKey, Text, String
+from api.database import Base
+
+class Direccion(Base):
+    __tablename__ = "INICIO_DIRECCION"
+
+    iddireccion = Column("IDDIRECCION", Integer, primary_key=True, index=True)
+    descripciondir = Column("DESCRIPCIONDIR", Text)
+    region_id = Column("REGION_ID", Integer, ForeignKey('INICIO_REGION.IDREGION'))
+    usuario_id = Column("USUARIO_ID", String(15), ForeignKey('INICIO_USUARIO.USERNAME'))
+    
+from sqlalchemy import Column, Integer, Date, String, ForeignKey
+from api.database import Base
+
+class Venta(Base):
+    __tablename__ = "INICIO_VENTA"
+
+    idventa = Column("IDVENTA", Integer, primary_key=True, index=True)
+    fechaventa = Column("FECHAVENTA", Date)
+    usuario_id = Column("USUARIO_ID", String(15), ForeignKey('INICIO_USUARIO.USERNAME'))
+    
+class Detalle(Base):
+    __tablename__ = "INICIO_DETALLE"
+
+    iddetalle = Column("IDDETALLE", Integer, primary_key=True, index=True)
+    cantidad = Column("CANTIDAD", Integer)
+    subtotal = Column("SUBTOTAL", Integer)
+    producto_id = Column("PRODUCTO_ID", Integer, ForeignKey('INICIO_PRODUCTO.IDPRODUCTO'))
+    venta_id = Column("VENTA_ID", Integer, ForeignKey('INICIO_VENTA.IDVENTA'))
