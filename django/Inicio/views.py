@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from .models import Usuario,Direccion,Comuna,Region,TipoUsuario, Producto, Marca,Categoria,TipoProd,Marca
 from django.contrib import messages
 from .Carrito import Carrito
+from django.conf import settings
+import requests
 
 # Create your views here.
 def inicio(request):
@@ -227,23 +229,36 @@ def registrar_m (request):
 
         
 def iniciar_sesion(request):
-    usuario1 = request.POST['usuario']
-    contra1 = request.POST['contra']
-    try:
-        usuario2 = Usuario.objects.get(username = usuario1,contrasennia = contra1)
-        
-        if(usuario2.tipousuario.idTipoUsuario == 1):
-            return redirect ('menu_admin')
-        else:    
-            contexto = {"usuario":usuario2}
-            
-            return render(request, 'Inicio/index.html', contexto)            
+    if request.method == 'POST':
+        username = request.POST.get('usuario')
+        password = request.POST.get('contra')
 
-    except:
-        messages.error(request,'El usuario o la contraseña son incorrectos')
-        return redirect ('iniciar')
-    
- 
+        try:
+            response = requests.get(f"{settings.API_URL}/usuarios/", params={"username": username, "contrasennia": password})
+
+            if response.status_code == 200:
+                usuarios = response.json()
+
+                if usuarios:  # Si la lista no está vacía
+                    usuario = usuarios[0]  # Tomamos el primer usuario
+
+                    if usuario['tipousuarioId'] == 1:
+                        return redirect('menu_admin')
+                    else:
+                        contexto = {"usuario": usuario}
+                        return render(request, 'Inicio/index.html', contexto)
+                else:
+                    messages.error(request, "Usuario o contraseña incorrectos")
+                    return redirect('iniciar')
+            else:
+                messages.error(request, "Error al conectar con la API")
+                return redirect('iniciar')
+        
+        except requests.exceptions.RequestException:
+            messages.error(request, "No se pudo conectar a la API")
+            return redirect('iniciar')
+
+    return redirect('iniciar')
 
 
 
