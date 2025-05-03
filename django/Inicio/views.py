@@ -16,6 +16,8 @@ from django.contrib import messages
 from .Carrito import Carrito
 from django.conf import settings
 import requests
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 def inicio(request):
@@ -95,7 +97,7 @@ def modificarPerfil(request, id):
 @login_requerido
 def mostrarMic(request, id):
     micros = Producto.objects.filter(tipoprod=1)
-    usuario = Usuario.objects.get(username=request.usuario_payload['username'])
+    usuario = Usuario.objects.get(username=request.usuario_payload["username"])
     contexto = {"mic": micros, "usuario": usuario}
     return render(request, "Inicio/microfonos.html", contexto)
 
@@ -225,54 +227,105 @@ def ram(request, idr, usuario):
 
 
 def registrarse(request):
-    regiones = Region.objects.all()
-    comunas = Comuna.objects.all()
-    contexto = {"comunas_m": comunas, "regiones_m": regiones}
+    try:
+        response_regiones = requests.get(
+            f"{settings.API_BUSINESS_URL}/regiones", timeout=5
+        )
+        response_comunas = requests.get(
+            f"{settings.API_BUSINESS_URL}/comunas", timeout=5
+        )
+
+        regiones = (
+            response_regiones.json() if response_regiones.status_code == 200 else []
+        )
+        comunas = response_comunas.json() if response_comunas.status_code == 200 else []
+
+        contexto = {"regiones_m": regiones, "comunas_m": comunas}
+    except Exception as e:
+        messages.error(request, f"No se pudieron cargar los datos: {e}")
+        contexto = {"regiones_m": [], "comunas_m": []}
+
     return render(request, "Inicio/registrarse.html", contexto)
 
 
 def registrar_m(request):
-    user = request.POST["usuario"]
-    contra = request.POST["contra"]
-    correo = request.POST["email"]
-    region = request.POST["region"]
-    direccion = request.POST["direccion"]
-    comuna = request.POST["comuna"]
-    nombree = request.POST["nombre"]
-    apellido = request.POST["apellido"]
+    if request.method == "POST":
+        user = request.POST["usuario"]
+        contra = request.POST["contra"]
+        correo = request.POST["email"]
+        nombree = request.POST["nombre"]
+        apellido = request.POST["apellido"]
 
-    comuna2 = Comuna.objects.get(idComuna=comuna)
-    region2 = Region.objects.get(idRegion=region)
-    tipousuario2 = TipoUsuario.objects.get(idTipoUsuario=2)
-    existe = None
-    try:
-        existe = Usuario.objects.get(username=user)
-        messages.error(request, "El usuario ya existe")
-        return redirect("registrarse")
-    except:
-        Usuario.objects.create(
-            username=user,
-            contrasennia=contra,
-            nombre=nombree,
-            apellido=apellido,
-            email=correo,
-            tipousuario=tipousuario2,
-        )
-        x = Usuario.objects.get(username=user)
-        Direccion.objects.create(descripcionDir=direccion, usuario=x, region=region2)
-        return redirect("iniciar")
+        # Validación de contraseñas
+        if request.POST["contra"] != request.POST["contra2"]:
+            messages.error(request, "Las contraseñas no coinciden.")
+            return redirect("registrarse")
+
+        payload_usuario = {
+            "username": user,
+            "contrasennia": contra,
+            "nombre": nombree,
+            "apellido": apellido,
+            "email": correo,
+            "tipousuario_id": 2,  # usuario normal
+        }
+
+        try:
+            # Crear el usuario en la API_AUTH
+            response_usuario = requests.post(
+                f"{settings.API_AUTH_URL}/usuarios", json=payload_usuario, timeout=5
+            )
+            
+            print(f"Enviando a: {settings.API_AUTH_URL}/usuarios")
+            print("Payload:", payload_usuario)
+
+            if response_usuario.status_code in [200, 201]:
+                # Si se creó correctamente el usuario, ahora registramos su dirección
+                direccion = request.POST["direccion"]
+                region = request.POST["region"]  # Este valor ya es el ID
+
+                payload_direccion = {
+                    "usuario_id": user,
+                    "descripciondir": direccion,
+                    "region_id": int(region),
+                }
+
+                print(f"Enviando a: {settings.API_BUSINESS_URL}/direcciones")
+                print("Payload:", payload_direccion)
+
+                response_direccion = requests.post(
+                    f"{settings.API_BUSINESS_URL}/direcciones",
+                    json=payload_direccion,
+                    timeout=5,
+                )
+
+                if response_direccion.status_code in [200, 201]:
+                    return redirect("iniciar")
+                else:
+                    messages.error(
+                        request,
+                        "Usuario creado, pero ocurrió un error al guardar la dirección.",
+                    )
+            else:
+                messages.error(
+                    request, "No se pudo registrar el usuario. Verifica los datos."
+                )
+        except Exception as e:
+            messages.error(request, f"Error de conexión: {str(e)}")
+
+    return redirect("registrarse")
 
 
 def iniciar_sesion(request):
-    if request.method == 'POST':
-        username = request.POST.get('usuario')
-        password = request.POST.get('contra')
+    if request.method == "POST":
+        username = request.POST.get("usuario")
+        password = request.POST.get("contra")
 
         try:
             response = requests.post(
                 f"{settings.API_AUTH_URL}/usuarios/login",
                 json={"username": username, "contrasennia": password},
-                timeout=5
+                timeout=5,
             )
 
             if response.status_code == 200:
@@ -281,20 +334,20 @@ def iniciar_sesion(request):
                 token = data["access_token"]
 
                 # Guardar en la sesión
-                request.session['token'] = token
-                request.session['username'] = usuario['username']
-                request.session['tipousuarioId'] = usuario['tipousuarioId']
+                request.session["token"] = token
+                request.session["username"] = usuario["username"]
+                request.session["tipousuarioId"] = usuario["tipousuarioId"]
 
                 if usuario["tipousuarioId"] == 1:
-                    return redirect('menu_admin')
+                    return redirect("menu_admin")
                 else:
-                    return render(request, 'Inicio/index.html', {"usuario": usuario})
+                    return render(request, "Inicio/index.html", {"usuario": usuario})
 
             messages.error(request, "Credenciales inválidas")
         except:
             messages.error(request, "No se pudo conectar con la API")
 
-    return redirect('iniciar')
+    return redirect("iniciar")
 
 
 def newProd(request):
@@ -400,3 +453,28 @@ def limpiar_producto(request, usuario):
     contexto = {"usuario": usuario2}
     carrito.limpiar()
     return render(request, "Inicio/carrito.html", contexto)
+
+def recuperar_contrasena(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            response = requests.post(
+                f"{settings.API_AUTH_URL}/usuarios/recover",
+                json={"email": email},
+                timeout=5
+            )
+            if response.status_code == 200:
+                data = response.json()
+                return render(request, "Inicio/recovery_pass.html", {
+                    "mensaje": data.get("message", "Contraseña restablecida.")
+                })
+            else:
+                return render(request, "Inicio/recovery_pass.html", {
+                    "error": "No se pudo recuperar la contraseña. Revisa el correo ingresado."
+                })
+        except Exception as e:
+            return render(request, "Inicio/recovery_pass.html", {
+                "error": f"Error de conexión: {str(e)}"
+            })
+
+    return render(request, "Inicio/recovery_pass.html")

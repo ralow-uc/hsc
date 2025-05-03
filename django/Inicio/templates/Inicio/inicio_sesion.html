@@ -142,6 +142,13 @@
                       </div>
   
                       {% endif %}
+
+                      {% if mensaje %}
+                      <div class="alert alert-success mt-3">{{ mensaje }}</div>
+                      {% endif %}
+                      {% if error %}
+                        <div class="alert alert-danger mt-3">{{ error }}</div>
+                      {% endif %}
                         <div class="mb-4">
                           <label for="exampleInputEmail1" class="form-label font-weight-bold">Usuario</label>
                           <input type="text" class="form-control bg-dark-x border-0" name="usuario" placeholder="Ingrese su username" id="usuario" >
@@ -150,7 +157,7 @@
                         <div class="mb-4">
                           <label for="exampleInputPassword1" class="form-label font-weight-bold" >Contraseña</label>
                           <input type="password" class="form-control bg-dark-x mb-2" name ="contra" id="contra" placeholder="Ingrese su contraseña">
-                          <a href="/pages/recovery_pass.html"  class="form-text text-muted text-decoration-none">¿Haz oldidado tu contraseña?</a>
+                          <a href="{% url 'recuperar' %}"  class="form-text text-muted text-decoration-none">¿Has oldidado tu contraseña?</a>
                         </div>
                     
                         <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>

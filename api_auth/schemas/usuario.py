@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class UsuarioSchema(BaseModel):
     username: str
@@ -14,10 +14,15 @@ class UsuarioSchema(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     contrasennia: str
-    
-class LoginResponse(BaseModel):
+
+class UsuarioLoginResponse(BaseModel):
     username: str
-    nombre: str
-    apellido: str
-    email: str
     tipousuarioId: int
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    usuario: UsuarioLoginResponse
+
+class RecuperarContrasenaRequest(BaseModel):
+    email: EmailStr
