@@ -65,9 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Inicio.context_processor.usuario_en_sesion',
                 'Inicio.context_processor.total_carrito',
-
-                
             ],
         },
     },
@@ -155,3 +154,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 API_AUTH_URL = "http://localhost:8001"
 API_BUSINESS_URL = "http://localhost:8002"
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+SESSION_COOKIE_AGE = 1209600  # 2 semanas

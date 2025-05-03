@@ -74,7 +74,7 @@
                   </li>
                 <li class="nav-item">
                     {% if usuario %}
-                        <a class="nav-link active " aria-current="page" href="{% url 'miperfil' usuario.username %}"><i class="fa-solid fa-user"></i>{{usuario.username}}</a>
+                        <a class="nav-link active " aria-current="page" href="{% url 'miperfil' %}"><i class="fa-solid fa-user"></i>{{usuario.username}}</a>
                     {% else %}
                         <a class="nav-link active " aria-current="page" href="{% url 'iniciar' %}"><i class="fa-solid fa-user"></i> Iniciar Sesion</a>
                     {% endif %}
@@ -101,7 +101,7 @@
           <h1>Mi perfil</h1>
           <p>En esta opción puedes modificar tu perfil y ver los datos que tienes guardados.<br>Es importante que <b>no deje espacios en blanco.</b></p>
           <div class="text-start boton-volver">
-            <a href="{% url 'miperfil' usuario.username %}" class="boton btn btn-primary">Volver</a>
+            <a href="{% url 'miperfil' %}" class="boton btn btn-primary">Volver</a>
           </div>
           <!-- /modificarPerfil/      /modificarPerfil/ usuario.username  -->
           <!-- {% url 'modificarPerfil' usuario.username %} -->

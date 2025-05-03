@@ -91,7 +91,7 @@ urlpatterns = [
     path("restar/<int:idProducto>/<str:usuario>", restar_producto, name="Sub"),
     path("limpiar/<str:usuario>", limpiar_producto, name="CLS"),
     # Usuario
-    path("miperfil/<id>", perfilusuario, name="miperfil"),
+    path("miperfil/", perfilusuario, name="miperfil"),
     path("mostrarperfil/<id>", mostrarperfil, name="mostrarperfil"),
     path("modificarPerfil/<id>", modificarPerfil, name="modificarPerfil"),
     path("edicionProducto/<idProducto>", edicionProducto, name="edicionProducto"),

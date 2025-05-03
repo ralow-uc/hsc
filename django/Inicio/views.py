@@ -21,7 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def inicio(request):
-
+    print("Usuario en sesión (desde vista):", request.session.get("username"))
     return render(request, "Inicio/index.html")
 
 
@@ -59,11 +59,19 @@ def carrito(request, id):
     return render(request, "Inicio/carrito.html", contexto)
 
 
-def perfilusuario(request, id):
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"usuario": usuario}
-
-    return render(request, "Inicio/perfil-user.html", contexto)
+def perfilusuario(request):
+    username = request.session.get("username")
+    if not username:
+        messages.error(request, "Debes iniciar sesión para acceder al perfil.")
+        return redirect("iniciar")
+    
+    try:
+        usuario = Usuario.objects.get(username=username)
+        contexto = {"usuario": usuario}
+        return render(request, "Inicio/miperfil.html", contexto)
+    except Usuario.DoesNotExist:
+        messages.error(request, "Usuario no encontrado.")
+        return redirect("inicio")
 
 
 def mostrarperfil(request, id):
@@ -316,6 +324,7 @@ def registrar_m(request):
     return redirect("registrarse")
 
 
+
 def iniciar_sesion(request):
     if request.method == "POST":
         username = request.POST.get("usuario")
@@ -327,24 +336,23 @@ def iniciar_sesion(request):
                 json={"username": username, "contrasennia": password},
                 timeout=5,
             )
-
             if response.status_code == 200:
-                data = response.json()
-                usuario = data["usuario"]
-                token = data["access_token"]
+                data          = response.json()
+                usuario_api   = data["usuario"]
+                token         = data["access_token"]
 
-                # Guardar en la sesión
-                request.session["token"] = token
-                request.session["username"] = usuario["username"]
-                request.session["tipousuarioId"] = usuario["tipousuarioId"]
+                request.session["token"]         = token
+                request.session["username"]      = usuario_api["username"]
+                request.session["tipousuarioId"] = usuario_api["tipousuarioId"]
+                request.session["usuario_api"]   = usuario_api
+                request.session.modified         = True
 
-                if usuario["tipousuarioId"] == 1:
+                if usuario_api["tipousuarioId"] == 1:
                     return redirect("menu_admin")
-                else:
-                    return render(request, "Inicio/index.html", {"usuario": usuario})
-
+                return redirect("inicio")
+            
             messages.error(request, "Credenciales inválidas")
-        except:
+        except requests.RequestException:
             messages.error(request, "No se pudo conectar con la API")
 
     return redirect("iniciar")
