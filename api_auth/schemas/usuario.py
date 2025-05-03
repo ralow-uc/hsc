@@ -10,3 +10,14 @@ class UsuarioSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+class LoginRequest(BaseModel):
+    username: str
+    contrasennia: str
+    
+class LoginResponse(BaseModel):
+    username: str
+    nombre: str
+    apellido: str
+    email: str
+    tipousuarioId: int

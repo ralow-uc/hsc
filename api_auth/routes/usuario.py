@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from api_auth.database import SessionLocal
 from api_auth.models import Usuario
-from api_auth.schemas.usuario import UsuarioSchema
+from api_auth.schemas.usuario import UsuarioSchema, LoginResponse
+from utils.jwt import create_access_token
 
 router = APIRouter(
     prefix="/usuarios",
@@ -59,3 +60,23 @@ def eliminar_usuario(username: str, db: Session = Depends(get_db)):
         db.delete(usuario_db)
         db.commit()
     return {"mensaje": "Usuario eliminado correctamente"}
+
+@router.post("/login", response_model=LoginResponse)
+def login(payload: dict, db: Session = Depends(get_db)):
+    username = payload.get("username")
+    password = payload.get("contrasennia")
+
+    user = db.query(Usuario).filter(Usuario.username == username).first()
+    if not user or user.contrasennia != password:
+        raise HTTPException(status_code=401, detail="Credenciales inválidas")
+
+    token = create_access_token({"sub": user.username, "tipousuarioId": user.tipousuario_id})
+
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "usuario": {
+            "username": user.username,
+            "tipousuarioId": user.tipousuario_id
+        }
+    }
