@@ -58,3 +58,7 @@ def eliminar_direccion(iddireccion: int, db: Session = Depends(get_db)):
         db.delete(direccion_db)
         db.commit()
     return {"mensaje": "Dirección eliminada correctamente"}
+
+@router.get("/usuario/{usuario_id}", response_model=DireccionSchemaResponse)
+def obtener_direccion_por_usuario(usuario_id: str, db: Session = Depends(get_db)):
+    return db.query(Direccion).filter(Direccion.usuario_id == usuario_id).first()

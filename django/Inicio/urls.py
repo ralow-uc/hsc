@@ -33,13 +33,12 @@ from .views import (
     perfilusuario,
     edicionProducto,
     editarProducto,
-    mostrarperfil,
-    modificarPerfil,
     agregar_producto,
     eliminar_producto,
     restar_producto,
     limpiar_producto,
     recuperar_contrasena,
+    cerrar_sesion,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -92,10 +91,9 @@ urlpatterns = [
     path("limpiar/<str:usuario>", limpiar_producto, name="CLS"),
     # Usuario
     path("miperfil/", perfilusuario, name="miperfil"),
-    path("mostrarperfil/<id>", mostrarperfil, name="mostrarperfil"),
-    path("modificarPerfil/<id>", modificarPerfil, name="modificarPerfil"),
     path("edicionProducto/<idProducto>", edicionProducto, name="edicionProducto"),
     path("editarProducto/<idProducto>", editarProducto, name="editarProducto"),
     path("recuperar", recuperar_contrasena, name="recuperar"),
+    path("cerrar/", cerrar_sesion, name="cerrar"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

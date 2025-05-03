@@ -21,9 +21,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def inicio(request):
-    print("Usuario en sesión (desde vista):", request.session.get("username"))
     return render(request, "Inicio/index.html")
 
+def cerrar_sesion(request):
+    request.session.flush()
+    return redirect('inicio')
 
 def inicioadmin(request):
 
@@ -61,43 +63,147 @@ def carrito(request, id):
 
 def perfilusuario(request):
     username = request.session.get("username")
-    if not username:
+    token = request.session.get("token")
+
+    if not username or not token:
         messages.error(request, "Debes iniciar sesión para acceder al perfil.")
         return redirect("iniciar")
-    
+
+    headers = {"Authorization": f"Bearer {token}"}
+
+    if request.method == "POST":
+        nombre = request.POST.get("nomusu")
+        apellido = request.POST.get("apepusu")
+        email = request.POST.get("mailusu")
+        direccion = request.POST.get("dirusu")
+        region_id = request.POST.get("region")
+        password = request.POST.get("password")
+
+        payload_user = {
+            "nombre": nombre,
+            "apellido": apellido,
+            "email": email,
+            "tipousuario_id": 2,
+            "username": username,
+            "contrasennia": password,
+        }
+
+        try:
+            # Actualizar datos del usuario
+            response_user = requests.put(
+                f"{settings.API_AUTH_URL}/usuarios/{username}",
+                headers=headers,
+                json=payload_user,
+                timeout=5
+            )
+
+            # Obtener dirección actual
+            response_dir = requests.get(
+                f"{settings.API_BUSINESS_URL}/direcciones/usuario/{username}",
+                headers=headers,
+                timeout=5
+            )
+
+            if response_dir.status_code == 200:
+                direccion_id = response_dir.json().get("iddireccion")
+
+                # Actualizar dirección
+                payload_dir = {
+                    "descripciondir": direccion,
+                    "region_id": int(region_id),
+                    "usuario_id": username
+                }
+                print(payload_dir)
+
+                response_update_dir = requests.put(
+                    f"{settings.API_BUSINESS_URL}/direcciones/{direccion_id}",
+                    headers=headers,
+                    json=payload_dir,
+                    timeout=5
+                )
+
+                if response_user.status_code in [200, 204] and response_update_dir.status_code in [200, 204]:
+                    messages.success(request, "¡Perfil y dirección modificados correctamente!")
+                else:
+                    messages.error(request, "No se pudo actualizar correctamente el perfil o la dirección.")
+            else:
+                messages.error(request, "No se pudo obtener la dirección del usuario.")
+
+        except Exception as e:
+            messages.error(request, f"Error al actualizar: {e}")
+
     try:
-        usuario = Usuario.objects.get(username=username)
-        contexto = {"usuario": usuario}
-        return render(request, "Inicio/miperfil.html", contexto)
-    except Usuario.DoesNotExist:
-        messages.error(request, "Usuario no encontrado.")
+        response_user = requests.get(
+            f"{settings.API_AUTH_URL}/usuarios/{username}",
+            headers=headers,
+            timeout=5
+        )
+        usuario = response_user.json() if response_user.status_code == 200 else {}
+
+        response_dir = requests.get(
+            f"{settings.API_BUSINESS_URL}/direcciones/usuario/{username}",
+            headers=headers,
+            timeout=5
+        )
+        direccion = response_dir.json() if response_dir.status_code == 200 else {}
+
+        regiones = requests.get(f"{settings.API_BUSINESS_URL}/regiones").json()
+        comunas = requests.get(f"{settings.API_BUSINESS_URL}/comunas").json()
+
+        contexto = {
+            "usuario": usuario,
+            "direccion": direccion,
+            "region": regiones,
+            "comuna": comunas,
+        }
+
+        return render(request, "Inicio/perfil_usuario.html", contexto)
+
+    except Exception as e:
+        messages.error(request, f"Error al cargar el perfil: {e}")
         return redirect("inicio")
 
 
-def mostrarperfil(request, id):
-    usuario = Usuario.objects.get(username=id)
-    direccion = Direccion.objects.get(usuario=id)
-    region = Region.objects.all()
-    comuna = Comuna.objects.all()
-    contexto = {
-        "usuario": usuario,
-        "direccion": direccion,
-        "region": region,
-        "comuna": comuna,
-    }
-    return render(request, "Inicio/perfil_usuario.html", contexto)
+# def modificarPerfil(request):
+#     token = request.session.get("token")
+#     username = request.session.get("username")
 
+#     if not token or not username:
+#         messages.error(request, "Debes iniciar sesión.")
+#         return redirect("iniciar")
 
-def modificarPerfil(request, id):
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"usuario": usuario}
-    usuario.username = request.POST.get("username")
-    usuario.nombre = request.POST.get("nomusu")
-    usuario.apellido = request.POST.get("apepusu")
-    usuario.email = request.POST.get("mailusu")
-    usuario.save()
-    messages.success(request, "¡Perfil modificado correctamente!")
-    return render(request, "Inicio/perfil-user.html", contexto)
+#     if request.method == "POST":
+#         headers = {"Authorization": f"Bearer {token}"}
+
+#         nombre = request.POST["nomusu"]
+#         apellido = request.POST["apepusu"]
+#         email = request.POST["mailusu"]
+#         direccion = request.POST["dirusu"]
+#         region_id = request.POST["region"]
+
+#         requests.put(
+#             f"{settings.API_AUTH_URL}/usuarios/{username}",
+#             headers=headers,
+#             json={"nombre": nombre, "apellido": apellido, "email": email},
+#             timeout=5
+#         )
+
+#         dir_resp = requests.get(
+#             f"{settings.API_BUSINESS_URL}/direcciones/usuario/{username}",
+#             headers=headers,
+#             timeout=5
+#         )
+#         direccion_id = dir_resp.json().get("iddireccion")
+
+#         requests.put(
+#             f"{settings.API_BUSINESS_URL}/direcciones/{direccion_id}",
+#             headers=headers,
+#             json={"descripciondir": direccion, "region_id": int(region_id), "usuario_id": username},
+#             timeout=5
+#         )
+
+#         messages.success(request, "Perfil actualizado correctamente.")
+#         return redirect("miperfil")
 
 
 # -------------------- PRODUCTOS --------------------
@@ -283,7 +389,7 @@ def registrar_m(request):
             response_usuario = requests.post(
                 f"{settings.API_AUTH_URL}/usuarios", json=payload_usuario, timeout=5
             )
-            
+
             print(f"Enviando a: {settings.API_AUTH_URL}/usuarios")
             print("Payload:", payload_usuario)
 
@@ -324,7 +430,6 @@ def registrar_m(request):
     return redirect("registrarse")
 
 
-
 def iniciar_sesion(request):
     if request.method == "POST":
         username = request.POST.get("usuario")
@@ -337,20 +442,20 @@ def iniciar_sesion(request):
                 timeout=5,
             )
             if response.status_code == 200:
-                data          = response.json()
-                usuario_api   = data["usuario"]
-                token         = data["access_token"]
+                data = response.json()
+                usuario_api = data["usuario"]
+                token = data["access_token"]
 
-                request.session["token"]         = token
-                request.session["username"]      = usuario_api["username"]
+                request.session["token"] = token
+                request.session["username"] = usuario_api["username"]
                 request.session["tipousuarioId"] = usuario_api["tipousuarioId"]
-                request.session["usuario_api"]   = usuario_api
-                request.session.modified         = True
+                request.session["usuario_api"] = usuario_api
+                request.session.modified = True
 
                 if usuario_api["tipousuarioId"] == 1:
                     return redirect("menu_admin")
                 return redirect("inicio")
-            
+
             messages.error(request, "Credenciales inválidas")
         except requests.RequestException:
             messages.error(request, "No se pudo conectar con la API")
@@ -462,6 +567,7 @@ def limpiar_producto(request, usuario):
     carrito.limpiar()
     return render(request, "Inicio/carrito.html", contexto)
 
+
 def recuperar_contrasena(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -469,20 +575,28 @@ def recuperar_contrasena(request):
             response = requests.post(
                 f"{settings.API_AUTH_URL}/usuarios/recover",
                 json={"email": email},
-                timeout=5
+                timeout=5,
             )
             if response.status_code == 200:
                 data = response.json()
-                return render(request, "Inicio/recovery_pass.html", {
-                    "mensaje": data.get("message", "Contraseña restablecida.")
-                })
+                return render(
+                    request,
+                    "Inicio/recovery_pass.html",
+                    {"mensaje": data.get("message", "Contraseña restablecida.")},
+                )
             else:
-                return render(request, "Inicio/recovery_pass.html", {
-                    "error": "No se pudo recuperar la contraseña. Revisa el correo ingresado."
-                })
+                return render(
+                    request,
+                    "Inicio/recovery_pass.html",
+                    {
+                        "error": "No se pudo recuperar la contraseña. Revisa el correo ingresado."
+                    },
+                )
         except Exception as e:
-            return render(request, "Inicio/recovery_pass.html", {
-                "error": f"Error de conexión: {str(e)}"
-            })
+            return render(
+                request,
+                "Inicio/recovery_pass.html",
+                {"error": f"Error de conexión: {str(e)}"},
+            )
 
     return render(request, "Inicio/recovery_pass.html")
