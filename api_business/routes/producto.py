@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from typing import List
-from api.database import SessionLocal
-from api.models import Producto as ProductoModel
-from api.schemas.producto import Producto as ProductoSchema
+from api_business.database import SessionLocal
+from api_business.models import Producto as ProductoModel
+from api_business.schemas.producto import Producto as ProductoSchema
 
 router = APIRouter(
     prefix="/productos",

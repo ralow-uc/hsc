@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import Venta
-from api.schemas.venta import VentaSchema, VentaSchemaResponse
+from api_business.database import SessionLocal
+from api_business.models import Venta
+from api_business.schemas.venta import VentaSchema, VentaSchemaResponse
 
 router = APIRouter(
     prefix="/ventas",

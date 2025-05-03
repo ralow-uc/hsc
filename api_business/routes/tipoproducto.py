@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import TipoProducto
-from api.schemas.tipoproducto import TipoProductoSchema, TipoProductoCreate
+from api_business.database import SessionLocal
+from api_business.models import TipoProducto
+from api_business.schemas.tipoproducto import TipoProductoSchema, TipoProductoCreate
 
 router = APIRouter(
     prefix="/tipoproducto",

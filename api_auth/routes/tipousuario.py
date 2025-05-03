@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import TipoUsuario
-from api.schemas.tipousuario import TipoUsuarioSchema, TipoUsuarioCreate, TipoUsuarioUpdate
+from api_auth.database import SessionLocal
+from api_auth.models import TipoUsuario
+from api_auth.schemas.tipousuario import TipoUsuarioSchema, TipoUsuarioCreate, TipoUsuarioUpdate
 
 router = APIRouter(
     prefix="/tipousuarios",

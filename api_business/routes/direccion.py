@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import Direccion
-from api.schemas.direccion import DireccionSchema, DireccionSchemaResponse
+from api_business.database import SessionLocal
+from api_business.models import Direccion
+from api_business.schemas.direccion import DireccionSchema, DireccionSchemaResponse
 
 router = APIRouter(
     prefix="/direcciones",

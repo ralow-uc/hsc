@@ -1,5 +1,5 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Sequence
-from api.database import Base 
+from sqlalchemy import Column, ForeignKey, Integer, String, Sequence, Date, Text
+from api_auth.database import Base
 
 class Categoria(Base):
     __tablename__ = "INICIO_CATEGORIA"
@@ -75,9 +75,6 @@ class Region(Base):
     idregion = Column("IDREGION", Integer, primary_key=True, index=True)
     nombrereg = Column("NOMBREREG", String(40))
     comuna_id = Column("COMUNA_ID", Integer, ForeignKey('INICIO_COMUNA.IDCOMUNA'))
-    
-from sqlalchemy import Column, Integer, ForeignKey, Text, String
-from api.database import Base
 
 class Direccion(Base):
     __tablename__ = "INICIO_DIRECCION"
@@ -86,9 +83,6 @@ class Direccion(Base):
     descripciondir = Column("DESCRIPCIONDIR", Text)
     region_id = Column("REGION_ID", Integer, ForeignKey('INICIO_REGION.IDREGION'))
     usuario_id = Column("USUARIO_ID", String(15), ForeignKey('INICIO_USUARIO.USERNAME'))
-    
-from sqlalchemy import Column, Integer, Date, String, ForeignKey
-from api.database import Base
 
 class Venta(Base):
     __tablename__ = "INICIO_VENTA"
