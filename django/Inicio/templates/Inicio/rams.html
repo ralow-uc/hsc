@@ -6,7 +6,7 @@
 {% block imagen %}
 <div class="img-hd">
     <div class="txt-hd">
-        <p class="lh-lg">Rams</p>
+        <p class="lh-lg">Memorias RAM</p>
     </div>
 </div>
 {% endblock imagen %}
@@ -16,10 +16,10 @@
         <div class="row items no-gutter">
             {% for c in ram %}
             <div class="col-xl-3 col-md-6 col-sm-12">
-                <a href="{% url 'ram' idr=c.idProducto usuario=usuario.username%}">
-                    <img src="{{c.imagenProd.url}}" alt="Error :D" id="img2" class="img-fluid">
-                    <p class="text-break">{{c.nombreProducto}}</p>
-                    <h6>$ {{c.precioProducto}}</h6>
+                <a href="{% url 'detalleProducto' c.idproducto %}">
+                    <img src="{% if c.imagenprod %}{% static c.imagenprod %}{% else %}{% static 'productos/placeholder.jpg' %}{% endif %}" alt="RAM" id="img2" class="img-fluid">
+                    <p class="text-break">{{ c.nombreproducto }}</p>
+                    <h6>$ {{ c.precioproducto }}</h6>
                 </a>
             </div>
             {% endfor %}
@@ -27,6 +27,3 @@
     </div>
 </section>
 {% endblock contenido %}
-
-
-    

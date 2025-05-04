@@ -104,10 +104,10 @@
                 <label for="formFile" class="datos form-label">Seleccionar imagen<span class="text-danger">
                         *</span></label>
                 {% if producto.imagenprod %}
-                <img src="{{producto.imagenprod}}" alt="" class="prod-size">
+                <img src="{% static producto.imagenprod %}" alt="" class="prod-size">
                 {% endif %}
                 <input class="form-control negritas" type="file" name="imgprod" id="imgprod"
-                 >
+                >
                 <div class="invalid-feedback">Debe seleccionar una imagen para el producto</div>
             </div>
 

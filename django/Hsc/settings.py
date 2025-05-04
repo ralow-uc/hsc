@@ -66,7 +66,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'Inicio.context_processor.usuario_en_sesion',
-                'Inicio.context_processor.total_carrito',
+                'Inicio.context_processor.consejo_context',
+                "Inicio.context_processor.pokemon_random"
             ],
         },
     },

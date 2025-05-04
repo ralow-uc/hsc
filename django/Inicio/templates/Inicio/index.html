@@ -36,7 +36,7 @@
             <div class="col-xl-4 col-md-6 col-sm-12">
                 <article class="caja">
                     {%if usuario %}
-                    <a href="{% url 'teclados'  usuario.username %}"><img src="{% static 'Inicio/img/img-index/teclado.jpg' %}" alt="teclado gamer" class="img-fluid" id="img"></a>
+                    <a href="{% url 'mostrarTeclado'%}"><img src="{% static 'Inicio/img/img-index/teclado.jpg' %}" alt="teclado gamer" class="img-fluid" id="img"></a>
                     <p class="txtcaja"> TECLADOS</p>
                     {%else%}
                     <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/teclado.jpg' %}" alt="teclado gamer" class="img-fluid" id="img"></a>
@@ -47,7 +47,7 @@
             <div class="col-xl-4 col-md-12 col-sm-12">
                 <article class="caja">
                     {%if usuario%}
-                    <a href="{% url 'mostrarMouse' usuario.username %}"><img src="{% static 'Inicio/img/img-index/mouse.jpg' %}" alt="mouse gamer" class="img-fluid" id="img"></a>
+                    <a href="{% url 'mostrarMouse'%}"><img src="{% static 'Inicio/img/img-index/mouse.jpg' %}" alt="mouse gamer" class="img-fluid" id="img"></a>
                     <p class="txtcaja"> MOUSE GAMER</p>
                     {%else%}
                     <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/mouse.jpg' %}" alt="mouse gamer" class="img-fluid" id="img"></a>
@@ -68,7 +68,7 @@
             <div class="col-xl-4 col-md-6 col-sm-12">
                 <article class="caja">
                     {%if usuario %}
-                        <a href="{% url 'mostrarGrafica' usuario.username  %}"><img src="{% static 'Inicio/img/img-index/grafica.png' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
+                        <a href="{% url 'mostrarGrafica' %}"><img src="{% static 'Inicio/img/img-index/grafica.png' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
                         <p class="txtcaja"> TARJETAS GRÁFICAS</p>
                     {%else%}
                         <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/grafica.png' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
@@ -79,7 +79,7 @@
             <div class="col-xl-4 col-md-6 col-sm-12">
                 <article class="caja">
                     {%if usuario %}
-                        <a href="{% url 'mostrarProcesador' usuario.username  %}"><img src="{% static 'Inicio/img/img-index/procesador.jpg' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
+                        <a href="{% url 'mostrarProcesador' %}"><img src="{% static 'Inicio/img/img-index/procesador.jpg' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
                         <p class="txtcaja"> PROCESADORES</p>
                     {%else%}
                         <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/procesador.jpg' %}" alt="tarjeta grafica" class="img-fluid" id="img"></a>
@@ -90,7 +90,7 @@
             <div class="col-xl-4 col-md-12 col-sm-12">
                 <article class="caja">
                     {%if usuario%}
-                    <a href="{% url 'mostrarRam' usuario.username%}"><img src="{% static 'Inicio/img/img-index/rampc.jpg' %}" alt="trident z rgb" class="img-fluid" id="img"></a>
+                    <a href="{% url 'mostrarRam' %}"><img src="{% static 'Inicio/img/img-index/rampc.jpg' %}" alt="trident z rgb" class="img-fluid" id="img"></a>
                     <p class="txtcaja">MEMORIAS</p>
                     {%else%}
                     <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/rampc.jpg' %}" alt="trident z rgb" class="img-fluid" id="img"></a>

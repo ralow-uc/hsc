@@ -9,12 +9,9 @@
 .navegacion{
     padding: 0;
 }
-#img2
-{
-    border-radius: 10px;
-    text-align: center;
-    height: auto;
-    width: 200px;
+
+img {
+    border-radius: 16px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.4);
 }
 /*Cabecera de la página (Idealmente una imagen)*/
