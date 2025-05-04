@@ -76,3 +76,8 @@ def eliminar_producto(idproducto: int, db: Session = Depends(get_db)):
     db.delete(producto)
     db.commit()
     return {"message": "Producto eliminado correctamente"}
+
+@router.get("/tipo/{tipoprod_id}", response_model=List[ProductoSchema], tags=["Productos"])
+def obtener_productos_por_tipo(tipoprod_id: int, db: Session = Depends(get_db)):
+    productos = db.query(ProductoModel).filter(ProductoModel.tipoprod_id == tipoprod_id).all()
+    return productos

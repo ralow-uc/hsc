@@ -39,6 +39,7 @@ from .views import (
     limpiar_producto,
     recuperar_contrasena,
     cerrar_sesion,
+    detalleProducto,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -73,8 +74,8 @@ urlpatterns = [
     # Mostrar productos
     path("teclados/<id>", mostrarTeclado, name="teclados"),
     path("teclados/<idk>/<usuario>", teclado, name="teclado"),
-    path("microfonos/<id>", mostrarMic, name="mostrarMic"),
-    path("microfono/<idmic>/<usuario>", micro, name="micro"),
+    path("microfonos/", mostrarMic, name="mostrarMic"),
+    path("microfono/<idmic>", micro, name="micro"),
     path("mouses/<id>", mostrarMouse, name="mostrarMouse"),
     path("mouses/<idm>/<usuario>", mouse, name="mouse"),
     path("graficas/<id>", mostrarGrafica, name="mostrarGrafica"),
@@ -83,6 +84,7 @@ urlpatterns = [
     path("rams/<idr>/<usuario>", ram, name="ram"),
     path("procesadores/<id>", mostrarProcesador, name="mostrarProcesador"),
     path("procesadores/<idp>/<usuario>", procesador, name="procesador"),
+    path("producto/<int:id>", detalleProducto, name="detalleProducto"),
     # Carrito
     path("carrito/<id>", carrito, name="carrito"),
     path("agregar3/<int:idProducto>/<str:usuario>", agregar_producto, name="Add"),

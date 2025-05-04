@@ -9,6 +9,7 @@ class Producto(BaseModel):
     imagenprod: Optional[str] = None
     marca_id: int
     tipoprod_id: int
+    idproducto: Optional[int]
 
     class Config:
         from_attributes = True

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from utils.decorators import login_requerido
+from utils.decorators import admin_requerido, login_requerido
 from .models import (
     Usuario,
     Direccion,
@@ -23,12 +23,14 @@ from django.views.decorators.csrf import csrf_exempt
 def inicio(request):
     return render(request, "Inicio/index.html")
 
+
 def cerrar_sesion(request):
     request.session.flush()
-    return redirect('inicio')
+    return redirect("inicio")
 
+
+@admin_requerido
 def inicioadmin(request):
-
     return render(request, "Inicio/index_admin.html")
 
 
@@ -50,8 +52,8 @@ def iniciar(request):
     return render(request, "Inicio/inicio_sesion.html")
 
 
+@admin_requerido
 def menuadmin(request):
-
     return render(request, "Inicio/dashboard-admin.html")
 
 
@@ -94,14 +96,14 @@ def perfilusuario(request):
                 f"{settings.API_AUTH_URL}/usuarios/{username}",
                 headers=headers,
                 json=payload_user,
-                timeout=5
+                timeout=5,
             )
 
             # Obtener dirección actual
             response_dir = requests.get(
                 f"{settings.API_BUSINESS_URL}/direcciones/usuario/{username}",
                 headers=headers,
-                timeout=5
+                timeout=5,
             )
 
             if response_dir.status_code == 200:
@@ -111,7 +113,7 @@ def perfilusuario(request):
                 payload_dir = {
                     "descripciondir": direccion,
                     "region_id": int(region_id),
-                    "usuario_id": username
+                    "usuario_id": username,
                 }
                 print(payload_dir)
 
@@ -119,13 +121,21 @@ def perfilusuario(request):
                     f"{settings.API_BUSINESS_URL}/direcciones/{direccion_id}",
                     headers=headers,
                     json=payload_dir,
-                    timeout=5
+                    timeout=5,
                 )
 
-                if response_user.status_code in [200, 204] and response_update_dir.status_code in [200, 204]:
-                    messages.success(request, "¡Perfil y dirección modificados correctamente!")
+                if response_user.status_code in [
+                    200,
+                    204,
+                ] and response_update_dir.status_code in [200, 204]:
+                    messages.success(
+                        request, "¡Perfil y dirección modificados correctamente!"
+                    )
                 else:
-                    messages.error(request, "No se pudo actualizar correctamente el perfil o la dirección.")
+                    messages.error(
+                        request,
+                        "No se pudo actualizar correctamente el perfil o la dirección.",
+                    )
             else:
                 messages.error(request, "No se pudo obtener la dirección del usuario.")
 
@@ -134,16 +144,14 @@ def perfilusuario(request):
 
     try:
         response_user = requests.get(
-            f"{settings.API_AUTH_URL}/usuarios/{username}",
-            headers=headers,
-            timeout=5
+            f"{settings.API_AUTH_URL}/usuarios/{username}", headers=headers, timeout=5
         )
         usuario = response_user.json() if response_user.status_code == 200 else {}
 
         response_dir = requests.get(
             f"{settings.API_BUSINESS_URL}/direcciones/usuario/{username}",
             headers=headers,
-            timeout=5
+            timeout=5,
         )
         direccion = response_dir.json() if response_dir.status_code == 200 else {}
 
@@ -164,56 +172,56 @@ def perfilusuario(request):
         return redirect("inicio")
 
 
-# def modificarPerfil(request):
-#     token = request.session.get("token")
-#     username = request.session.get("username")
-
-#     if not token or not username:
-#         messages.error(request, "Debes iniciar sesión.")
-#         return redirect("iniciar")
-
-#     if request.method == "POST":
-#         headers = {"Authorization": f"Bearer {token}"}
-
-#         nombre = request.POST["nomusu"]
-#         apellido = request.POST["apepusu"]
-#         email = request.POST["mailusu"]
-#         direccion = request.POST["dirusu"]
-#         region_id = request.POST["region"]
-
-#         requests.put(
-#             f"{settings.API_AUTH_URL}/usuarios/{username}",
-#             headers=headers,
-#             json={"nombre": nombre, "apellido": apellido, "email": email},
-#             timeout=5
-#         )
-
-#         dir_resp = requests.get(
-#             f"{settings.API_BUSINESS_URL}/direcciones/usuario/{username}",
-#             headers=headers,
-#             timeout=5
-#         )
-#         direccion_id = dir_resp.json().get("iddireccion")
-
-#         requests.put(
-#             f"{settings.API_BUSINESS_URL}/direcciones/{direccion_id}",
-#             headers=headers,
-#             json={"descripciondir": direccion, "region_id": int(region_id), "usuario_id": username},
-#             timeout=5
-#         )
-
-#         messages.success(request, "Perfil actualizado correctamente.")
-#         return redirect("miperfil")
-
-
 # -------------------- PRODUCTOS --------------------
 # MICROFONOS
-@login_requerido
-def mostrarMic(request, id):
-    micros = Producto.objects.filter(tipoprod=1)
-    usuario = Usuario.objects.get(username=request.usuario_payload["username"])
-    contexto = {"mic": micros, "usuario": usuario}
-    return render(request, "Inicio/microfonos.html", contexto)
+def mostrarMic(request):
+    username = request.session.get("username")
+    token = request.session.get("token")
+
+    if not username or not token:
+        messages.error(request, "Debes iniciar sesión para ver los productos.")
+        return redirect("iniciar")
+
+    headers = {"Authorization": f"Bearer {token}"}
+
+    try:
+        response = requests.get(
+            f"{settings.API_BUSINESS_URL}/productos/tipo/1", headers=headers, timeout=5
+        )
+
+        if response.status_code == 200:
+            productos = response.json()
+        else:
+            productos = []
+            messages.error(request, "No se pudieron obtener los productos.")
+
+        contexto = {
+            "mic": productos,
+        }
+
+        return render(request, "Inicio/microfonos.html", contexto)
+
+    except Exception as e:
+        messages.error(request, f"Error al cargar productos: {e}")
+        return redirect("inicio")
+
+
+def detalleProducto(request, id):
+
+    try:
+        response = requests.get(
+            f"{settings.API_BUSINESS_URL}/productos/{id}", timeout=5
+        )
+        if response.status_code == 200:
+            producto = response.json()
+            contexto = {"producto": producto}
+            return render(request, "Inicio/detalle_producto.html", contexto)
+        else:
+            messages.error(request, "Producto no encontrado.")
+            return redirect("inicio")
+    except Exception as e:
+        messages.error(request, f"Error al obtener el producto: {e}")
+        return redirect("inicio")
 
 
 def micadmin(request, id):
@@ -223,10 +231,9 @@ def micadmin(request, id):
     return render(request, "Inicio/micadmin.html", contexto)
 
 
-def micro(request, idmic, usuario):
-    productos = Producto.objects.get(idProducto=idmic)
-    username = Usuario.objects.get(username=usuario)
-    contexto = {"prod": productos, "usuario": username}
+def micro(request, idmic):
+    producto = Producto.objects.get(idProducto=idmic)
+    contexto = {"prod": producto}
     return render(request, "Inicio/mic1.html", contexto)
 
 
@@ -502,34 +509,79 @@ def eliminarProducto(request, idProducto):
 
 
 def edicionProducto(request, idProducto):
-    tipoProd = TipoProd.objects.all()
-    marca = Marca.objects.all()
-    producto = Producto.objects.get(idProducto=idProducto)
+    token = request.session.get("token")
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
 
-    return render(
-        request,
-        "Inicio/edicionProducto.html",
-        {"producto": producto, "tipoProd": tipoProd, "Marca": marca},
-    )
+    try:
+        response_producto = requests.get(
+            f"{settings.API_BUSINESS_URL}/productos/{idProducto}",
+            headers=headers,
+            timeout=5,
+        )
+        producto = (
+            response_producto.json() if response_producto.status_code == 200 else None
+        )
+
+        response_tipos = requests.get(
+            f"{settings.API_BUSINESS_URL}/tipoproducto", timeout=5
+        )
+        tipos = response_tipos.json() if response_tipos.status_code == 200 else []
+
+        response_marcas = requests.get(f"{settings.API_BUSINESS_URL}/marcas", timeout=5)
+        marcas = response_marcas.json() if response_marcas.status_code == 200 else []
+
+        if not producto:
+            messages.error(request, "Producto no encontrado")
+            return redirect("indexadmin")
+
+        return render(
+            request,
+            "Inicio/edicionProducto.html",
+            {
+                "producto": producto,
+                "tipoProd": tipos,
+                "Marca": marcas,
+            },
+        )
+
+    except Exception as e:
+        messages.error(request, f"Error al obtener datos del producto: {e}")
+        return redirect("indexadmin")
 
 
 def editarProducto(request, idProducto):
-    producto = Producto.objects.get(idProducto=idProducto)
-    tiprod1 = request.POST["tipoprod"]
-    tipoprod2 = TipoProd.objects.get(idTiporod=tiprod1)
-    marca1 = request.POST["marcaprod"]
-    marca2 = Marca.objects.get(idMarca=marca1)
-    if request.FILES.get("imgprod"):
-        fotoprod = request.FILES["imgprod"]
-        producto.imagenProd = fotoprod
-    producto.nombreProducto = request.POST.get("nomprod")
-    producto.tipoprod = tipoprod2
-    producto.marca = marca2
-    producto.stockProd = request.POST.get("stockprod")
-    producto.precioProducto = request.POST.get("precio")
-    producto.especificacionProd = request.POST.get("descprod")
-    producto.save()
-    messages.success(request, "¡Producto Modificado!")
+    token = request.session.get("token")
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
+
+    if request.method == "POST":
+        payload = {
+            "nombreproducto": request.POST.get("nomprod"),
+            "tipoprod_id": int(request.POST.get("tipoprod")),
+            "marca_id": int(request.POST.get("marcaprod")),
+            "stockprod": int(request.POST.get("stockprod")),
+            "precioproducto": float(request.POST.get("precio")),
+            "especificacionprod": request.POST.get("descprod"),
+        }
+
+        files = {}
+        if request.FILES.get("imgprod"):
+            files["imagenprod"] = request.FILES["imgprod"]
+
+        try:
+            response = requests.put(
+                f"{settings.API_BUSINESS_URL}/productos/{idProducto}",
+                headers=headers,
+                data=payload,
+                files=files,
+                timeout=5,
+            )
+            if response.status_code in [200, 204]:
+                messages.success(request, "¡Producto modificado correctamente!")
+            else:
+                messages.error(request, "No se pudo modificar el producto.")
+        except Exception as e:
+            messages.error(request, f"Error al modificar el producto: {e}")
+
     return redirect("indexadmin")
 
 

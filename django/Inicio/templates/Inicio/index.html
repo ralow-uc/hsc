@@ -24,7 +24,7 @@
                 <article class="caja">
                     
                     {% if usuario %}
-                        <a href="{% url 'mostrarMic' usuario.username %}"><img src="{% static 'Inicio/img/img-index/microfono.jpg' %}" alt="microfono gamer" class="img-fluid" id="img"></a>
+                        <a href="{% url 'mostrarMic' %}"><img src="{% static 'Inicio/img/img-index/microfono.jpg' %}" alt="microfono gamer" class="img-fluid" id="img"></a>
                         <p class="txtcaja">MICRÓFONOS</p>
                     {% else %}
                         <a href="{% url 'iniciar' %}"><img src="{% static 'Inicio/img/img-index/microfono.jpg' %}" alt="microfono gamer" class="img-fluid" id="img"></a>
