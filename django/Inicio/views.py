@@ -550,10 +550,10 @@ def edicionProducto(request, idProducto):
 
 
 def editarProducto(request, idProducto):
-    token = request.session.get("token")
-    headers = {"Authorization": f"Bearer {token}"} if token else {}
-
     if request.method == "POST":
+        token = request.session.get("token")
+        headers = {"Authorization": f"Bearer {token}"} if token else {}
+
         payload = {
             "nombreproducto": request.POST.get("nomprod"),
             "tipoprod_id": int(request.POST.get("tipoprod")),
@@ -571,16 +571,15 @@ def editarProducto(request, idProducto):
             response = requests.put(
                 f"{settings.API_BUSINESS_URL}/productos/{idProducto}",
                 headers=headers,
-                data=payload,
-                files=files,
+                json=payload,
                 timeout=5,
             )
             if response.status_code in [200, 204]:
                 messages.success(request, "¡Producto modificado correctamente!")
             else:
-                messages.error(request, "No se pudo modificar el producto.")
+                messages.error(request, f"Error {response.status_code}: No se pudo modificar.")
         except Exception as e:
-            messages.error(request, f"Error al modificar el producto: {e}")
+            messages.error(request, f"Error al conectar con la API: {e}")
 
     return redirect("indexadmin")
 

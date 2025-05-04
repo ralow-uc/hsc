@@ -4,7 +4,7 @@ from sqlalchemy import text
 from typing import List
 from api_business.database import SessionLocal
 from api_business.models import Producto as ProductoModel
-from api_business.schemas.producto import Producto as ProductoSchema
+from api_business.schemas.producto import Producto as ProductoSchema, ProductoUpdate
 
 router = APIRouter(
     prefix="/productos",
@@ -50,18 +50,25 @@ def crear_producto(producto: ProductoSchema, db: Session = Depends(get_db)):
     return nuevo_producto
 
 @router.put("/{idproducto}", response_model=ProductoSchema, tags=["Productos"])
-def actualizar_producto(idproducto: int, producto_actualizado: ProductoSchema, db: Session = Depends(get_db)):
+def actualizar_producto(idproducto: int, producto_actualizado: ProductoUpdate, db: Session = Depends(get_db)):
     producto = db.query(ProductoModel).filter(ProductoModel.idproducto == idproducto).first()
     if producto is None:
         raise HTTPException(status_code=404, detail="Producto no encontrado")
-    
-    producto.nombreproducto = producto_actualizado.nombreproducto
-    producto.precioproducto = producto_actualizado.precioproducto
-    producto.especificacionprod = producto_actualizado.especificacionprod
-    producto.stockprod = producto_actualizado.stockprod
-    producto.imagenprod = producto_actualizado.imagenprod
-    producto.marca_id = producto_actualizado.marca_id
-    producto.tipoprod_id = producto_actualizado.tipoprod_id
+
+    if producto_actualizado.nombreproducto is not None:
+        producto.nombreproducto = producto_actualizado.nombreproducto
+    if producto_actualizado.precioproducto is not None:
+        producto.precioproducto = producto_actualizado.precioproducto
+    if producto_actualizado.especificacionprod is not None:
+        producto.especificacionprod = producto_actualizado.especificacionprod
+    if producto_actualizado.stockprod is not None:
+        producto.stockprod = producto_actualizado.stockprod
+    if producto_actualizado.imagenprod is not None:
+        producto.imagenprod = producto_actualizado.imagenprod
+    if producto_actualizado.marca_id is not None:
+        producto.marca_id = producto_actualizado.marca_id
+    if producto_actualizado.tipoprod_id is not None:
+        producto.tipoprod_id = producto_actualizado.tipoprod_id
 
     db.commit()
     db.refresh(producto)

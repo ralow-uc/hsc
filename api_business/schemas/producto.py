@@ -13,3 +13,12 @@ class Producto(BaseModel):
 
     class Config:
         from_attributes = True
+        
+class ProductoUpdate(BaseModel):
+    nombreproducto: Optional[str] = None
+    precioproducto: Optional[float] = None
+    especificacionprod: Optional[str] = None
+    stockprod: Optional[int] = None
+    imagenprod: Optional[str] = None
+    marca_id: Optional[int] = None
+    tipoprod_id: Optional[int] = None
