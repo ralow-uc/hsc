@@ -553,12 +553,27 @@ def newProd(request):
 
 
 def eliminarProducto(request, idProducto):
-    producto = Producto.objects.get(idProducto=idProducto)
-    producto.delete()
+    token = request.session.get("token")
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
 
-    messages.success(request, "¡Producto Eliminado!")
+    try:
+        response = requests.delete(
+            f"{settings.API_BUSINESS_URL}/productos/{idProducto}",
+            headers=headers,
+            timeout=5
+        )
 
-    return redirect("indexadmin")
+        if response.status_code in [200, 204]:
+            messages.success(request, "¡Producto eliminado correctamente!")
+        elif response.status_code == 404:
+            messages.error(request, "El producto no fue encontrado en la API.")
+        else:
+            messages.error(request, f"Error {response.status_code}: No se pudo eliminar el producto.")
+
+    except Exception as e:
+        messages.error(request, f"Error al conectar con la API: {e}")
+
+    return redirect("inicio")
 
 
 def edicionProducto(request, idProducto):
