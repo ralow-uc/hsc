@@ -104,6 +104,11 @@
                           {% endif %}
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0" >
+                      {% if pokemon.imagen %}
+                        <div class="d-flex align-items-center gap-2">
+                          <img src="{{ pokemon.imagen }}" alt="{{ pokemon.nombre }}" title="{{ pokemon.nombre }}" width="50" height="50">
+                        </div>
+                      {% endif %}
                       <li class="nav-item">
                         {% if usuario %}
                         
@@ -135,8 +140,10 @@
     
                     <div class="col-6">
                         <div class="box">
-                            <h2>Sobre nosotros</h2>
-                            
+                            <h2>🧠 Consejo del día:</h2>
+                              <div class="text-small fw-bold text-white">
+                                {{ consejo }}
+                              </div>
                         </div>
                     </div>
                     <div class="col-6">
