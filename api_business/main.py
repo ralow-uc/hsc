@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import categoria, producto, marca, modelo, tipoproducto, usuario, tipousuario, comuna, region, direccion, venta, detalle
+from api_business.routes import categoria, producto, marca, modelo, tipoproducto, comuna, region, direccion, venta, detalle
 
 app = FastAPI()
 
@@ -17,8 +17,6 @@ app.include_router(producto.router)
 app.include_router(marca.router)
 app.include_router(modelo.router)
 app.include_router(tipoproducto.router)
-app.include_router(usuario.router)
-app.include_router(tipousuario.router)
 app.include_router(comuna.router)
 app.include_router(region.router)
 app.include_router(direccion.router)

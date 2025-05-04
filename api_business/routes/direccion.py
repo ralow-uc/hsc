@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import Direccion
-from api.schemas.direccion import DireccionSchema, DireccionSchemaResponse
+from api_business.database import SessionLocal
+from api_business.models import Direccion
+from api_business.schemas.direccion import DireccionSchema, DireccionSchemaResponse
 
 router = APIRouter(
     prefix="/direcciones",
@@ -58,3 +58,7 @@ def eliminar_direccion(iddireccion: int, db: Session = Depends(get_db)):
         db.delete(direccion_db)
         db.commit()
     return {"mensaje": "Dirección eliminada correctamente"}
+
+@router.get("/usuario/{usuario_id}", response_model=DireccionSchemaResponse)
+def obtener_direccion_por_usuario(usuario_id: str, db: Session = Depends(get_db)):
+    return db.query(Direccion).filter(Direccion.usuario_id == usuario_id).first()

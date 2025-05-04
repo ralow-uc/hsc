@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import Detalle
-from api.schemas.detalle import DetalleSchema, DetalleSchemaResponse
+from api_business.database import SessionLocal
+from api_business.models import Detalle
+from api_business.schemas.detalle import DetalleSchema, DetalleSchemaResponse
 
 router = APIRouter(
     prefix="/detalles",

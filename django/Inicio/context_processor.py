@@ -5,3 +5,7 @@ def total_carrito(request):
             for key, value in request.session["carrito"].items():
                 total += int(value["acumulado"])
     return {"total_carrito": total}
+
+def usuario_en_sesion(request):
+    usuario_api = request.session.get("usuario_api")
+    return {"usuario": usuario_api}

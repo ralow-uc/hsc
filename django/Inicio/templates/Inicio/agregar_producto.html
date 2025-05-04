@@ -27,55 +27,67 @@
         </div>
         <h1 >Agregar un producto</h1>
         <p style="font-weight: 200; padding-bottom: 10px;">En esta opción puede agregar un nuevo producto a la página. <br> Es importante que <b>llene todos los campos</b> para que pueda continuar.</p>
-        <form class="requires-validation form1" action ="{% url 'addProd' %}" method="POST" enctype="multipart/form-data" id="formprod" name="formularioprod">
+        <form class="requires-validation form1" action ="{% url 'agregarprod' %}" method="POST" enctype="multipart/form-data" id="formprod" name="formularioprod">
             {% csrf_token %}
+            <!-- Nombre -->
             <div class="form-group mb-3 flex-column d-flex caja">
-                <label for="" class="datos">Nombre del producto<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control negritas" name ="nomprod" id="nomprod" placeholder=" Ingresa el nombre del producto" required>
+                <label class="datos">Nombre del producto<span class="text-danger"> *</span></label>
+                <input type="text" class="form-control negritas" name="nomprod" id="nomprod" required>
                 <div class="invalid-feedback">El nombre del producto no puede estar vacío</div>    
             </div>
+
+            <!-- Tipo producto -->
             <div class="form-group mb-3 flex-column d-flex caja">
-                <label for="" class="datos">Tipo de producto<span class="text-danger"> *</span></label>
-                <select name="tipoprod" id="tipoprod" class="form-select negritas" aria-label="Productos" required>
-                        <option selected disabled value="">Seleccione un tipo de producto</option>
-                        {% for i in tipoProd %}
-                        <option value="{{ i.idTiporod }}">{{ i.nombreTipoProd }}</option>
-                        {% endfor %}
-                    
+                <label class="datos">Tipo de producto<span class="text-danger"> *</span></label>
+                <select name="tipoprod" id="tipoprod" class="form-select negritas" required>
+                <option selected disabled value="">Seleccione un tipo de producto</option>
+                {% for tipo in tipoProd %}
+                <option value="{{ tipo.idtipoprod }}">{{ tipo.nombretipoproducto }}</option>
+                {% endfor %}
                 </select>
-                <div class="invalid-feedback">Debe seleccionar un tipo de producto</div>    
+                <div class="invalid-feedback">Debe seleccionar un tipo de producto</div>
             </div>
+
+            <!-- Marca -->
             <div class="form-group mb-3 flex-column d-flex caja">
-                <label for="" class="datos">Marca de producto<span class="text-danger"> *</span></label>
-                <select name="marcaprod" id="marcaprod" class="form-select negritas" aria-label="Productos" required>
-                        <option selected disabled value="">Seleccione una marca</option>
-                        {% for x in Marca %}
-                        <option value="{{ x.idMarca }}">{{ x.nombreMarca }}</option>
-                        {% endfor %}
-                    
+                <label class="datos">Marca de producto<span class="text-danger"> *</span></label>
+                <select name="marcaprod" id="marcaprod" class="form-select negritas" required>
+                <option selected disabled value="">Seleccione una marca</option>
+                {% for marca in Marca %}
+                <option value="{{ marca.idmarca }}">{{ marca.nombremarca }}</option>
+                {% endfor %}
                 </select>
-                <div class="invalid-feedback">El nombre del producto no puede estar vacío</div>    
+                <div class="invalid-feedback">Debe seleccionar una marca</div>
             </div>
+
+            <!-- Stock -->
             <div class="form-group mb-3 flex-column d-flex caja">
-                <label for="" class="datos">Stock del producto<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control negritas" name="stockprod" id="stockprod" placeholder=" Ingrese el stock del producto" required>
-                <div class="invalid-feedback">El stock del producto no puede estar vacío</div>    
+                <label class="datos">Stock del producto<span class="text-danger"> *</span></label>
+                <input type="number" class="form-control negritas" name="stockprod" id="stockprod" required>
+                <div class="invalid-feedback">Debe ingresar el stock</div>
             </div>
+
+            <!-- Precio -->
             <div class="form-group mb-3 flex-column d-flex caja">
-                    <label for="formFile" class="datos form-label">Precio del producto<span class="text-danger"> *</span></label>
-                    <input type="number" class="form-control negritas" name="precio" id="precio" placeholder=" Ingrese el preico del producto" required>
-                    <div class="invalid-feedback">Debe ingresar un precio</div>
-                </div>
-            <div class="form-group mb-3 flex-column d-flex caja">
-                <label for="formFile" class="datos form-label">Seleccionar imagen<span class="text-danger"> *</span></label>
-                <input class="form-control negritas" type="file" name ="imgprod" id="imgprod"required>
+                <label class="datos">Precio del producto<span class="text-danger"> *</span></label>
+                <input type="number" class="form-control negritas" name="precio" id="precio" required>
+                <div class="invalid-feedback">Debe ingresar el precio</div>
+            </div>
+
+            <!-- Imagen -->
+            <!-- <div class="form-group mb-3 flex-column d-flex caja">
+                <label class="datos">Seleccionar imagen<span class="text-danger"> *</span></label>
+                <input class="form-control negritas" type="file" name="imgprod" id="imgprod" required>
                 <div class="invalid-feedback">Debe seleccionar una imagen para el producto</div>
-            </div>
+            </div> -->
+
+            <!-- Descripción -->
             <div class="form-group mb-3 flex-column d-flex caja">
-                <label for="" class="datos">Descripción del producto<span class="text-danger"> *</span></label>
-                <textarea class="form-control negritas" name ="descprod" id="descprod" rows="4" placeholder="Escriba acá la descripción del producto" required></textarea>
-                <div class="invalid-feedback">El producto debe tener una descripción</div>           
+                <label class="datos">Descripción del producto<span class="text-danger"> *</span></label>
+                <textarea class="form-control negritas" name="descprod" id="descprod" rows="4" required></textarea>
+                <div class="invalid-feedback">Debe ingresar una descripción</div>
             </div>
+
             <div class="text-center">
                 <button id="submit" type="submit" class="boton btn btn-primary">Agregar Producto</button>
             </div>

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import Comuna
-from api.schemas.comuna import ComunaSchema, ComunaSchemaResponse
+from api_business.database import SessionLocal
+from api_business.models import Comuna
+from api_business.schemas.comuna import ComunaSchema, ComunaSchemaResponse
 
 router = APIRouter(
     prefix="/comunas",

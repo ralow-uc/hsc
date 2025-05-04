@@ -42,7 +42,7 @@
                           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-bag-shopping"></i> Tienda</a></a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% if usuario %}
-                              <li><a class="dropdown-item" href="{% url 'mostrarMic' usuario.username %}">Micrófonos</a></li>
+                              <li><a class="dropdown-item" href="{% url 'mostrarMic' %}">Micrófonos</a></li>
                             {% else %} 
                               <li><a class="dropdown-item" href="{% url 'iniciar' %}">Micrófonos</a></li>
                             {% endif %}
@@ -80,7 +80,7 @@
                         </li>
                       <li class="nav-item">
                           {% if usuario %}
-                              <a class="nav-link active " aria-current="page" href="{% url 'miperfil' usuario.username %}"><i class="fa-solid fa-user"></i>{{usuario.username}}</a>
+                              <a class="nav-link active " aria-current="page" href="{% url 'miperfil' %}"><i class="fa-solid fa-user"></i>{{usuario.username}}</a>
                           {% else %}
                               <a class="nav-link active " aria-current="page" href="{% url 'iniciar' %}"><i class="fa-solid fa-user"></i> Iniciar Sesion</a>
                           {% endif %}
@@ -182,7 +182,7 @@
                           <select class="form-select" aria-label="Disabled select example" name="region" id ="region" required>
                                 {% for x in regiones_m %}
                                 <option selected>Selecciona una región</option>
-                                <option value="{{ x.idRegion }}">{{ x.nombreReg }}</option>
+                                <option value="{{ x.idregion }}">{{ x.nombrereg }}</option>
                              {% endfor %}
                             
                             
@@ -193,7 +193,7 @@
                           <select class="form-select" aria-label="Disabled select example" name="comuna" id ="comuna" >
                             {% for i in comunas_m %}
                                 <option selected>Selecciona una Comuna</option>
-                                <option value="{{ i.idComuna }}">{{ i.nombreCom }}</option>
+                                <option value="{{ i.idcomuna }}">{{ i.nombrecom }}</option>
                             {% endfor %}
                           </select>
                         </div>

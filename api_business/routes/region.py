@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from api.database import SessionLocal
-from api.models import Region
-from api.schemas.region import RegionSchema, RegionSchemaResponse
+from api_business.database import SessionLocal
+from api_business.models import Region
+from api_business.schemas.region import RegionSchema, RegionSchemaResponse
 
 router = APIRouter(
     prefix="/regiones",

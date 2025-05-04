@@ -31,24 +31,15 @@
         <h1>Modificar un producto</h1>
         <p style="font-weight: 200; padding-bottom: 10px;">En esta opción puede Modificar un producto de la página.
             <br> Es importante que <b>llene todos los campos</b> para que pueda continuar.</p>
-        <form class="requires-validation form1" action="{% url 'editarProducto' producto.idProducto %}" method="POST"
+        <form class="requires-validation form1" action="{% url 'editarProducto' producto.idproducto %}" method="POST"
             enctype="multipart/form-data" id="formprod" name="formularioprod">
             {% csrf_token %}
-
-
-            <div class="form-group mb-3 flex-column d-flex caja">
-                <label for="" class="datos">Id del producto<span class="text-danger"> *</span></label>
-                <input type="text" class="form-control negritas" name="txtCodigo" id="txtCodigo"
-                    placeholder=" Ingresa el nombre del producto" value="{{producto.idProducto}}" readonly required>
-            </div>
-
-
 
             <!--  NOMBRE  -->
             <div class="form-group mb-3 flex-column d-flex caja">
                 <label for="" class="datos">Nombre del producto<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control negritas" name="nomprod" id="nomprod"
-                    placeholder=" Ingresa el nombre del producto" value="{{producto.nombreProducto}}" required>
+                    placeholder=" Ingresa el nombre del producto" value="{{producto.nombreproducto}}" required>
                 <div class="invalid-feedback">El nombre del producto no puede estar vacío</div>
             </div>
 
@@ -57,9 +48,14 @@
             <div class="form-group mb-3 flex-column d-flex caja">
                 <label for="" class="datos">Tipo de producto<span class="text-danger"> *</span></label>
                 <select name="tipoprod" id="tipoprod" class="form-select negritas" aria-label="Productos" required>
-                    {%if idTiporod == producto.idTiporod.tipoprod%}
-                    <option value="{{ producto.tipoprod.idTiporod }}" selected>{{producto.tipoprod.nombreTipoProd }}</option>
+                    {% for i in tipoProd %}
+                    {% if i.idtipoprod == producto.tipoprod_id %}
+                    <option value="{{i.idtipoprod}}" selected>{{i.nombretipoproducto }}</option>
+                    {% else %}
+                    <option value="{{i.idtipoprod}}">{{i.nombretipoproducto }}</option>
+
                     {%endif%}
+                {% endfor %}
 
                 </select>
                 <div class="invalid-feedback">Debe seleccionar un tipo de producto</div>
@@ -71,11 +67,10 @@
                 <label for="" class="datos">Marca de producto<span class="text-danger"> *</span></label>
                 <select name="marcaprod" id="marcaprod" class="form-select negritas" aria-label="Productos" required>
                     {% for i in Marca %}
-
-                        {% if i.idMarca == producto.marca.idMarca %}
-                        <option value="{{producto.marca.idMarca}}" selected>{{producto.marca.nombreMarca }}</option>
+                        {% if i.idmarca == producto.marca_id %}
+                        <option value="{{i.idmarca}}" selected>{{i.nombremarca }}</option>
                         {% else %}
-                        <option value="{{i.idMarca}}">{{i.nombreMarca }}</option>
+                        <option value="{{i.idmarca}}">{{i.nombremarca }}</option>
 
                         {%endif%}
                     {% endfor %}
@@ -89,7 +84,7 @@
             <div class="form-group mb-3 flex-column d-flex caja">
                 <label for="" class="datos">Stock del producto<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control negritas" name="stockprod" id="stockprod"
-                    placeholder=" Ingrese el stock del producto" value="{{producto.stockProd}}" required>
+                    placeholder=" Ingrese el stock del producto" value="{{producto.stockprod}}" required>
                 <div class="invalid-feedback">El stock del producto no puede estar vacío</div>
             </div>
 
@@ -99,7 +94,7 @@
                 <label for="formFile" class="datos form-label">Precio del producto<span class="text-danger">
                         *</span></label>
                 <input type="number" class="form-control negritas" name="precio" id="precio"
-                    placeholder=" Ingrese el precio del producto" value="{{producto.precioProducto}}" required>
+                    placeholder=" Ingrese el precio del producto" value="{{producto.precioproducto}}" required>
                 <div class="invalid-feedback">Debe ingresar un precio</div>
             </div>
 
@@ -108,8 +103,8 @@
             <div class="form-group mb-3 flex-column d-flex caja" id ="imgmic">
                 <label for="formFile" class="datos form-label">Seleccionar imagen<span class="text-danger">
                         *</span></label>
-                {% if producto.imagenProd %}
-                <img src="{{producto.imagenProd.url}}" alt="chupalo" class="prod-size">
+                {% if producto.imagenprod %}
+                <img src="{{producto.imagenprod}}" alt="" class="prod-size">
                 {% endif %}
                 <input class="form-control negritas" type="file" name="imgprod" id="imgprod"
                  >
@@ -121,7 +116,7 @@
             <div class="form-group mb-3 flex-column d-flex caja">
                 <label for="" class="datos">Descripción del producto<span class="text-danger"> *</span></label>
                 <textarea class="form-control negritas" name="descprod" id="descprod" rows="4"
-                    placeholder="Escriba acá la descripción del producto" required>{{producto.especificacionProd}}</textarea>
+                    placeholder="Escriba acá la descripción del producto" required>{{producto.especificacionprod}}</textarea>
                 <div class="invalid-feedback">El producto debe tener una descripción</div>
             </div>
 
