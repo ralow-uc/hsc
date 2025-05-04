@@ -208,8 +208,7 @@ def perfilusuario(request):
 
 
 # -------------------- PRODUCTOS --------------------
-# MICROFONOS
-def mostrarMic(request):
+def mostrar_productos_por_tipo(request, tipo_id: int, nombre_contexto: str, template: str):
     username = request.session.get("username")
     token = request.session.get("token")
 
@@ -221,7 +220,9 @@ def mostrarMic(request):
 
     try:
         response = requests.get(
-            f"{settings.API_BUSINESS_URL}/productos/tipo/1", headers=headers, timeout=5
+            f"{settings.API_BUSINESS_URL}/productos/tipo/{tipo_id}",
+            headers=headers,
+            timeout=5,
         )
 
         if response.status_code == 200:
@@ -231,18 +232,34 @@ def mostrarMic(request):
             messages.error(request, "No se pudieron obtener los productos.")
 
         contexto = {
-            "mic": productos,
+            nombre_contexto: productos
         }
 
-        return render(request, "Inicio/microfonos.html", contexto)
+        return render(request, template, contexto)
 
     except Exception as e:
         messages.error(request, f"Error al cargar productos: {e}")
         return redirect("inicio")
+    
+def mostrarMic(request):
+    return mostrar_productos_por_tipo(request, tipo_id=1, nombre_contexto="mic", template="Inicio/microfonos.html")
 
+def mostrarTeclado(request):
+    return mostrar_productos_por_tipo(request, tipo_id=2, nombre_contexto="teclado", template="Inicio/teclados.html")
+
+def mostrarGrafica(request):
+    return mostrar_productos_por_tipo(request, tipo_id=3, nombre_contexto="grafica", template="Inicio/graficas.html")
+
+def mostrarRam(request):
+    return mostrar_productos_por_tipo(request, tipo_id=4, nombre_contexto="ram", template="Inicio/rams.html")
+
+def mostrarMouse(request):
+    return mostrar_productos_por_tipo(request, tipo_id=5, nombre_contexto="mouse", template="Inicio/mouses.html")
+
+def mostrarProcesador(request):
+    return mostrar_productos_por_tipo(request, tipo_id=6, nombre_contexto="procesador", template="Inicio/procesadores.html")
 
 def detalleProducto(request, id):
-
     try:
         response = requests.get(
             f"{settings.API_BUSINESS_URL}/productos/{id}", timeout=5
@@ -257,44 +274,6 @@ def detalleProducto(request, id):
     except Exception as e:
         messages.error(request, f"Error al obtener el producto: {e}")
         return redirect("inicio")
-
-
-# TECLADOS
-def mostrarTeclado(request, id):
-    teclados = Producto.objects.filter(tipoprod=2)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"teclado": teclados, "usuario": usuario}
-    return render(request, "Inicio/teclados.html", contexto)
-
-# MOUSES
-def mostrarMouse(request, id):
-    mouses = Producto.objects.filter(tipoprod=5)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"mouse": mouses, "usuario": usuario}
-    return render(request, "Inicio/mouses.html", contexto)
-
-
-# GRAFICAS
-def mostrarGrafica(request, id):
-    graficas = Producto.objects.filter(tipoprod=3)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"grafica": graficas, "usuario": usuario}
-    return render(request, "Inicio/graficas.html", contexto)
-
-# PROCESADORES
-def mostrarProcesador(request, id):
-    procesadores = Producto.objects.filter(tipoprod=6)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"procesador": procesadores, "usuario": usuario}
-    return render(request, "Inicio/procesadores.html", contexto)
-
-
-# RAMS
-def mostrarRam(request, id):
-    rams = Producto.objects.filter(tipoprod=4)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"ram": rams, "usuario": usuario}
-    return render(request, "Inicio/rams.html", contexto)
 
 def registrarse(request):
     try:
@@ -418,7 +397,7 @@ def iniciar_sesion(request):
 
     return redirect("iniciar")
 
-
+@admin_requerido
 def newProd(request):
     nombre = request.POST["nomprod"]
     tipoProd = request.POST["tipoprod"]

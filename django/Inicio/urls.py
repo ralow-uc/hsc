@@ -41,12 +41,12 @@ urlpatterns = [
     # Pag menu admin
     path("menuadmin/", menuadmin, name="menu_admin"),
     # Mostrar productos
-    path("teclados/<id>", mostrarTeclado, name="teclados"),
+    path("teclados/", mostrarTeclado, name="mostrarTeclado"),
     path("microfonos/", mostrarMic, name="mostrarMic"),
-    path("mouses/<id>", mostrarMouse, name="mostrarMouse"),
-    path("graficas/<id>", mostrarGrafica, name="mostrarGrafica"),
-    path("rams/<id>", mostrarRam, name="mostrarRam"),
-    path("procesadores/<id>", mostrarProcesador, name="mostrarProcesador"),
+    path("mouses/", mostrarMouse, name="mostrarMouse"),
+    path("graficas/", mostrarGrafica, name="mostrarGrafica"),
+    path("rams/", mostrarRam, name="mostrarRam"),
+    path("procesadores/", mostrarProcesador, name="mostrarProcesador"),
     path("producto/<int:id>", detalleProducto, name="detalleProducto"),
     # Usuario
     path("miperfil/", perfilusuario, name="miperfil"),

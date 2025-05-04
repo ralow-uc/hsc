@@ -1,7 +1,7 @@
 {% extends 'Inicio/plantMain.html' %}
 {% load static %}
 {% block css %}
-<link rel="stylesheet" href="{% static 'Inicio/css/estilos-categorias.css' %}">
+<link rel="stylesheet" href="{% static 'Inicio/css/estilo-micros.css' %}">
 {% endblock css %}
 {% block imagen %}
 <div class="img-hd">
@@ -12,12 +12,10 @@
 {% endblock imagen %}
 {% block contenido %}
 <section class="items">
-
     <div class="container">
         <div class="row items no-gutter">
             {% for c in mic %}
             <div class="col-xl-3 col-md-6 col-sm-12">
-                
                 <a href="{% url 'detalleProducto' c.idproducto %}">
                     <img src="{% if c.imagenprod %}{% static c.imagenprod %}{% else %}{% static 'productos/placeholder.jpg' %}{% endif %}" alt="Error :D" id="img2" class="img-fluid">
                     <p class="text-break">{{c.nombreproducto}}</p>

@@ -16,10 +16,10 @@
         <div class="row items no-gutter">
             {% for c in teclado %}
             <div class="col-xl-3 col-md-6 col-sm-12">
-                <a href="{% url 'teclado' idk=c.idProducto usuario=usuario.username %}">
-                    <img src="{{c.imagenProd.url}}" alt="Error :D" id="img2" class="img-fluid">
-                    <p class="text-break">{{c.nombreProducto}}</p>
-                    <h6>$ {{c.precioProducto}}</h6>
+                <a href="{% url 'detalleProducto' c.idproducto %}">
+                    <img src="{% if c.imagenprod %}{% static c.imagenprod %}{% else %}{% static 'productos/placeholder.jpg' %}{% endif %}" alt="Imagen del producto" id="img2" class="img-fluid">
+                    <p class="text-break">{{ c.nombreproducto }}</p>
+                    <h6>$ {{ c.precioproducto }}</h6>
                 </a>
             </div>
             {% endfor %}

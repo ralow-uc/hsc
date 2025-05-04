@@ -19,7 +19,7 @@
 }
 /*Cabecera de la página (Idealmente una imagen)*/
 .img-hd{
-    background-image: url('/static/Inicio/img/img-proce/fondo_4.jpg');
+    background-image: url('../../productos/fondo_4.jpg');
     width: auto;
     height: 400px;
     background-position: center;

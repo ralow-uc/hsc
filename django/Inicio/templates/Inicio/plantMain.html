@@ -49,7 +49,7 @@
                                 Inicio</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-bag-shopping"></i> Tienda</a></a>
+                            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-bag-shopping"></i> Productos</a></a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                               {% if usuario %}
                                 <li><a class="dropdown-item" href="{% url 'mostrarMic' %}">Micrófonos</a></li>
@@ -58,31 +58,31 @@
                               {% endif %}
 
                               {% if usuario %}
-                                <li><a class="dropdown-item" href="{% url 'teclados'  usuario.username %}">Teclados</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mostrarTeclado'%}">Teclados</a></li>
                               {% else %}
                                 <li><a class="dropdown-item" href="{% url 'iniciar' %}">Teclados</a></li> 
                               {% endif %}
 
                               {% if usuario %}
-                                <li><a class="dropdown-item" href="{% url 'mostrarMouse' usuario.username %}">Mouse Gamer</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mostrarMouse'%}">Mouse Gamer</a></li>
                               {% else %}
                                 <li><a class="dropdown-item" href="{% url 'iniciar' %}">Mouse Gamer</a></li> 
                               {% endif %}
 
                               {% if usuario %}
-                                <li><a class="dropdown-item" href="{% url 'mostrarGrafica' usuario.username  %}">Tarjetas gráficas</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mostrarGrafica'%}">Tarjetas gráficas</a></li>
                               {% else %} 
                                 <li><a class="dropdown-item" href="{% url 'iniciar' %}">Tarjetas gráficas</a></li>
                               {% endif %}
 
                               {% if usuario %}
-                                <li><a class="dropdown-item" href="{% url 'mostrarProcesador' usuario.username  %}">Procesadores</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mostrarProcesador'%}">Procesadores</a></li>
                               {% else %}
                                 <li><a class="dropdown-item" href="{% url 'iniciar' %}">Procesadores</a></li> 
                               {% endif %}
 
                               {% if usuario %}
-                                <li><a class="dropdown-item" href="{% url 'mostrarRam' usuario.username%}">Memorias</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mostrarRam'%}">Memorias</a></li>
                               {% else %}
                                 <li><a class="dropdown-item" href="{% url 'iniciar' %}">Memorias</a></li> 
                               {% endif %}

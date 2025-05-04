@@ -19,7 +19,7 @@
 }
 /*Cabecera de la página (Idealmente una imagen)*/
 .img-hd{
-    background-image: url('/static/Inicio/img/img-rams/fondo.jfif');
+    background-image: url('../../productos/fondo.jfif');
     width: auto;
     height: 400px;
     background-position: center;
