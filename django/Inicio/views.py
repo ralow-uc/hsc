@@ -2,13 +2,8 @@ from django.shortcuts import render, redirect
 from utils.decorators import admin_requerido, login_requerido
 from .models import (
     Usuario,
-    Direccion,
-    Comuna,
-    Region,
-    TipoUsuario,
     Producto,
     Marca,
-    Categoria,
     TipoProd,
     Marca,
 )
@@ -27,17 +22,6 @@ def inicio(request):
 def cerrar_sesion(request):
     request.session.flush()
     return redirect("inicio")
-
-
-@admin_requerido
-def inicioadmin(request):
-    return render(request, "Inicio/index_admin.html")
-
-
-def vistamod(request):
-
-    return render(request, "Inicio/modificar_producto.html")
-
 
 @admin_requerido
 @csrf_exempt
@@ -61,7 +45,7 @@ def addprod(request):
             "precioproducto": float(precio),
             "especificacionprod": desc,
         }
-        
+
         print(payload)
 
         # files = {}
@@ -80,12 +64,17 @@ def addprod(request):
                 messages.success(request, "¡Producto agregado correctamente!")
                 return redirect("menu_admin")
             else:
-                messages.error(request, f"Error {response.status_code}: No se pudo agregar el producto.")
+                messages.error(
+                    request,
+                    f"Error {response.status_code}: No se pudo agregar el producto.",
+                )
         except Exception as e:
             messages.error(request, f"Error al conectar con la API: {e}")
 
     try:
-        response_tipos = requests.get(f"{settings.API_BUSINESS_URL}/tipoproducto", timeout=5)
+        response_tipos = requests.get(
+            f"{settings.API_BUSINESS_URL}/tipoproducto", timeout=5
+        )
         tipoProd = response_tipos.json() if response_tipos.status_code == 200 else []
 
         response_marcas = requests.get(f"{settings.API_BUSINESS_URL}/marcas", timeout=5)
@@ -101,19 +90,12 @@ def addprod(request):
 
 
 def iniciar(request):
-
     return render(request, "Inicio/inicio_sesion.html")
 
 
 @admin_requerido
 def menuadmin(request):
     return render(request, "Inicio/dashboard-admin.html")
-
-
-def carrito(request, id):
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"usuario": usuario}
-    return render(request, "Inicio/carrito.html", contexto)
 
 
 def perfilusuario(request):
@@ -277,40 +259,12 @@ def detalleProducto(request, id):
         return redirect("inicio")
 
 
-def micadmin(request, id):
-    micros = Producto.objects.filter(tipoprod=1)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"mic": micros, "usuario": usuario}
-    return render(request, "Inicio/micadmin.html", contexto)
-
-
-def micro(request, idmic):
-    producto = Producto.objects.get(idProducto=idmic)
-    contexto = {"prod": producto}
-    return render(request, "Inicio/mic1.html", contexto)
-
-
 # TECLADOS
 def mostrarTeclado(request, id):
     teclados = Producto.objects.filter(tipoprod=2)
     usuario = Usuario.objects.get(username=id)
     contexto = {"teclado": teclados, "usuario": usuario}
     return render(request, "Inicio/teclados.html", contexto)
-
-
-def tecladoadmin(request, id):
-    teclados = Producto.objects.filter(tipoprod=2)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"teclado": teclados, "usuario": usuario}
-    return render(request, "Inicio/tecladoadmin.html", contexto)
-
-
-def teclado(request, idk, usuario):
-    productos = Producto.objects.get(idProducto=idk)
-    username = Usuario.objects.get(username=usuario)
-    contexto = {"prod": productos, "usuario": username}
-    return render(request, "Inicio/mic1.html", contexto)
-
 
 # MOUSES
 def mostrarMouse(request, id):
@@ -320,41 +274,12 @@ def mostrarMouse(request, id):
     return render(request, "Inicio/mouses.html", contexto)
 
 
-def mouseAdmin(request, id):
-    mouses = Producto.objects.filter(tipoprod=5)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"mouse": mouses, "usuario": usuario}
-    return render(request, "Inicio/mouseAdmin.html", contexto)
-
-
-def mouse(request, idm, usuario):
-    usuario = Usuario.objects.get(username=usuario)
-    productos = Producto.objects.get(idProducto=idm)
-    contexto = {"prod": productos, "usuario": usuario}
-    return render(request, "Inicio/mic1.html", contexto)
-
-
 # GRAFICAS
 def mostrarGrafica(request, id):
     graficas = Producto.objects.filter(tipoprod=3)
     usuario = Usuario.objects.get(username=id)
     contexto = {"grafica": graficas, "usuario": usuario}
     return render(request, "Inicio/graficas.html", contexto)
-
-
-def graficaAdmin(request, id):
-    graficas = Producto.objects.filter(tipoprod=3)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"grafica": graficas, "usuario": usuario}
-    return render(request, "Inicio/graficaAdmin.html", contexto)
-
-
-def grafica(request, idg, usuario):
-    productos = Producto.objects.get(idProducto=idg)
-    usuario = Usuario.objects.get(username=usuario)
-    contexto = {"prod": productos, "usuario": usuario}
-    return render(request, "Inicio/mic1.html", contexto)
-
 
 # PROCESADORES
 def mostrarProcesador(request, id):
@@ -364,41 +289,12 @@ def mostrarProcesador(request, id):
     return render(request, "Inicio/procesadores.html", contexto)
 
 
-def procesadorAdmin(request, id):
-    procesadores = Producto.objects.filter(tipoprod=6)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"procesador": procesadores, "usuario": usuario}
-    return render(request, "Inicio/procesadorAdmin.html", contexto)
-
-
-def procesador(request, idp, usuario):
-    productos = Producto.objects.get(idProducto=idp)
-    usuario = Usuario.objects.get(username=usuario)
-    contexto = {"prod": productos, "usuario": usuario}
-    return render(request, "Inicio/mic1.html", contexto)
-
-
 # RAMS
 def mostrarRam(request, id):
     rams = Producto.objects.filter(tipoprod=4)
     usuario = Usuario.objects.get(username=id)
     contexto = {"ram": rams, "usuario": usuario}
     return render(request, "Inicio/rams.html", contexto)
-
-
-def ramAdmin(request, id):
-    rams = Producto.objects.filter(tipoprod=4)
-    usuario = Usuario.objects.get(username=id)
-    contexto = {"ram": rams, "usuario": usuario}
-    return render(request, "Inicio/ramAdmin.html", contexto)
-
-
-def ram(request, idr, usuario):
-    productos = Producto.objects.get(idProducto=idr)
-    usuario = Usuario.objects.get(username=usuario)
-    contexto = {"prod": productos, "usuario": usuario}
-    return render(request, "Inicio/mic1.html", contexto)
-
 
 def registrarse(request):
     try:
@@ -552,6 +448,7 @@ def newProd(request):
         return redirect("menu_admin")
 
 
+@admin_requerido
 def eliminarProducto(request, idProducto):
     token = request.session.get("token")
     headers = {"Authorization": f"Bearer {token}"} if token else {}
@@ -560,7 +457,7 @@ def eliminarProducto(request, idProducto):
         response = requests.delete(
             f"{settings.API_BUSINESS_URL}/productos/{idProducto}",
             headers=headers,
-            timeout=5
+            timeout=5,
         )
 
         if response.status_code in [200, 204]:
@@ -568,7 +465,10 @@ def eliminarProducto(request, idProducto):
         elif response.status_code == 404:
             messages.error(request, "El producto no fue encontrado en la API.")
         else:
-            messages.error(request, f"Error {response.status_code}: No se pudo eliminar el producto.")
+            messages.error(
+                request,
+                f"Error {response.status_code}: No se pudo eliminar el producto.",
+            )
 
     except Exception as e:
         messages.error(request, f"Error al conectar con la API: {e}")
@@ -576,6 +476,7 @@ def eliminarProducto(request, idProducto):
     return redirect("inicio")
 
 
+@admin_requerido
 def edicionProducto(request, idProducto):
     token = request.session.get("token")
     headers = {"Authorization": f"Bearer {token}"} if token else {}
@@ -617,6 +518,7 @@ def edicionProducto(request, idProducto):
         return redirect("indexadmin")
 
 
+@admin_requerido
 def editarProducto(request, idProducto):
     if request.method == "POST":
         token = request.session.get("token")
@@ -645,47 +547,13 @@ def editarProducto(request, idProducto):
             if response.status_code in [200, 204]:
                 messages.success(request, "¡Producto modificado correctamente!")
             else:
-                messages.error(request, f"Error {response.status_code}: No se pudo modificar.")
+                messages.error(
+                    request, f"Error {response.status_code}: No se pudo modificar."
+                )
         except Exception as e:
             messages.error(request, f"Error al conectar con la API: {e}")
 
     return redirect("indexadmin")
-
-
-def agregar_producto(request, idProducto, usuario):
-    usuario2 = Usuario.objects.get(username=usuario)
-    carrito = Carrito(request)
-    producto = Producto.objects.get(idProducto=idProducto)
-    contexto = {"producto": producto, "usuario": usuario2}
-    carrito.agregar(producto)
-    return render(request, "Inicio/carrito.html", contexto)
-
-
-def eliminar_producto(request, idProducto, usuario):
-    usuario2 = Usuario.objects.get(username=usuario)
-    carrito = Carrito(request)
-    producto = Producto.objects.get(idProducto=idProducto)
-    contexto = {"producto": producto, "usuario": usuario2}
-    carrito.eliminar(producto)
-    return render(request, "Inicio/carrito.html", contexto)
-
-
-def restar_producto(request, idProducto, usuario):
-    usuario2 = Usuario.objects.get(username=usuario)
-    carrito = Carrito(request)
-    producto = Producto.objects.get(idProducto=idProducto)
-    contexto = {"producto": producto, "usuario": usuario2}
-    carrito.restar(producto)
-    return render(request, "Inicio/carrito.html", contexto)
-
-
-def limpiar_producto(request, usuario):
-    usuario2 = Usuario.objects.get(username=usuario)
-    carrito = Carrito(request)
-    contexto = {"usuario": usuario2}
-    carrito.limpiar()
-    return render(request, "Inicio/carrito.html", contexto)
-
 
 def recuperar_contrasena(request):
     if request.method == "POST":
