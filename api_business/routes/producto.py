@@ -4,7 +4,7 @@ from sqlalchemy import text
 from typing import List
 from api_business.database import SessionLocal
 from api_business.models import Producto as ProductoModel
-from api_business.schemas.producto import Producto as ProductoSchema, ProductoUpdate
+from api_business.schemas.producto import Producto as ProductoSchema, ProductoCreate, ProductoUpdate
 
 router = APIRouter(
     prefix="/productos",
@@ -31,7 +31,7 @@ def obtener_producto(idproducto: int, db: Session = Depends(get_db)):
     return producto
 
 @router.post("/", response_model=ProductoSchema, tags=["Productos"])
-def crear_producto(producto: ProductoSchema, db: Session = Depends(get_db)):
+def crear_producto(producto: ProductoCreate, db: Session = Depends(get_db)):
     next_id = db.execute(text("SELECT inicio_producto_seq.NEXTVAL FROM dual")).scalar()
   
     nuevo_producto = ProductoModel(

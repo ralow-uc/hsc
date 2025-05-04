@@ -39,11 +39,64 @@ def vistamod(request):
     return render(request, "Inicio/modificar_producto.html")
 
 
+@admin_requerido
+@csrf_exempt
 def addprod(request):
-    tipoProd = TipoProd.objects.all()
-    marca = Marca.objects.all()
-    contexto = {"tipoProd": tipoProd, "Marca": marca}
+    token = request.session.get("token")
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
 
+    if request.method == "POST":
+        nombre = request.POST.get("nomprod")
+        tipoProd = request.POST.get("tipoprod")
+        marca = request.POST.get("marcaprod")
+        stock = request.POST.get("stockprod")
+        desc = request.POST.get("descprod")
+        precio = request.POST.get("precio")
+
+        payload = {
+            "nombreproducto": nombre,
+            "tipoprod_id": int(tipoProd),
+            "marca_id": int(marca),
+            "stockprod": int(stock),
+            "precioproducto": float(precio),
+            "especificacionprod": desc,
+        }
+        
+        print(payload)
+
+        # files = {}
+        # if request.FILES.get("imgprod"):
+        #     files["imagenprod"] = request.FILES["imgprod"]
+
+        try:
+            response = requests.post(
+                f"{settings.API_BUSINESS_URL}/productos",
+                headers=headers,
+                json=payload,
+                # files=files,
+                timeout=5,
+            )
+            if response.status_code in [200, 201]:
+                messages.success(request, "¡Producto agregado correctamente!")
+                return redirect("menu_admin")
+            else:
+                messages.error(request, f"Error {response.status_code}: No se pudo agregar el producto.")
+        except Exception as e:
+            messages.error(request, f"Error al conectar con la API: {e}")
+
+    try:
+        response_tipos = requests.get(f"{settings.API_BUSINESS_URL}/tipoproducto", timeout=5)
+        tipoProd = response_tipos.json() if response_tipos.status_code == 200 else []
+
+        response_marcas = requests.get(f"{settings.API_BUSINESS_URL}/marcas", timeout=5)
+        marca = response_marcas.json() if response_marcas.status_code == 200 else []
+
+    except Exception as e:
+        tipoProd = []
+        marca = []
+        messages.error(request, f"Error al cargar tipos o marcas: {e}")
+
+    contexto = {"tipoProd": tipoProd, "Marca": marca}
     return render(request, "Inicio/agregar_producto.html", contexto)
 
 

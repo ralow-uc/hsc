@@ -22,3 +22,12 @@ class ProductoUpdate(BaseModel):
     imagenprod: Optional[str] = None
     marca_id: Optional[int] = None
     tipoprod_id: Optional[int] = None
+    
+class ProductoCreate(BaseModel):
+    nombreproducto: str
+    precioproducto: int
+    especificacionprod: Optional[str] = None
+    stockprod: int
+    imagenprod: Optional[str] = None
+    marca_id: int
+    tipoprod_id: int

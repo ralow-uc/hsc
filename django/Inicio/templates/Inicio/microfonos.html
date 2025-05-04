@@ -19,7 +19,7 @@
             <div class="col-xl-3 col-md-6 col-sm-12">
                 
                 <a href="{% url 'detalleProducto' c.idproducto %}">
-                    <img src="{% static c.imagenprod %}" alt="Error :D" id="img2" class="img-fluid">
+                    <img src="{% if c.imagenprod %}{% static c.imagenprod %}{% else %}{% static 'productos/placeholder.jpg' %}{% endif %}" alt="Error :D" id="img2" class="img-fluid">
                     <p class="text-break">{{c.nombreproducto}}</p>
                     <h6>$ {{c.precioproducto}}</h6>
                 </a>

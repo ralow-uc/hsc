@@ -6,7 +6,6 @@ from .views import (
     inicioadmin,
     registrar_m,
     registrarse,
-    newProd,
     addprod,
     vistamod,
     eliminarProducto,
@@ -58,7 +57,6 @@ urlpatterns = [
     path("registrar/", registrar_m, name="registrar"),
     path("registrarse/", registrarse, name="registrarse"),
     # Pag agregar producto
-    path("agregar2/", newProd, name="addProd"),
     path("agregar/", addprod, name="agregarprod"),
     # modificar un producto
     path("modificar/", vistamod, name="modificar"),
